@@ -1,0 +1,27 @@
+{% extends 'quanlitaisan/base.html' %}
+
+{% block extra_css %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'quanlitaisan/css/maintainDetails.css' %}">
+{% endblock %}
+{% block content %}
+  <h2>Chi tiết bảo trì</h2>
+  <table>
+    <tr>
+      <td>Ngày bảo trì</td>
+      <td>{{ obj.ngay_bao_tri }}</td>
+    </tr>
+    <tr>
+      <td>Tài sản bảo trì</td>
+      <td><a href="{% url 'quanlitaisan:details' obj.tai_san_bao_tri.id %}">{{ obj.tai_san_bao_tri.ten_tai_san }}</a></td>
+    </tr>
+    <tr>
+      <td>Tiêu đề</td>
+      <td>{{ obj.tieu_de}}</td>
+    </tr>
+    <tr>
+      <td>Nội dung</td>
+      <td>{{ obj.noi_dung}}</td>
+    </tr>
+  </table>
+{% endblock %}

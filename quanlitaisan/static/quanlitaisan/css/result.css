@@ -1,0 +1,35 @@
+
+table {
+  border-collapse: collapse;
+  width: 60%;
+  margin: auto;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+td, th {
+  padding: 5px;
+  text-align: left;
+}
+
+th{
+  text-align: center;
+}
+
+.year, .start_date {
+  /* display: inline; */
+  text-align: center;
+}
+.year{
+  width: 10%;
+}
+
+.start_date{
+  width: 25%;
+}
+.id {
+  width: 15%;
+  text-align: center;
+}

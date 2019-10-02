@@ -1,0 +1,43 @@
+#detail_table {
+  width: 40%;
+  /* border: 1px solid black; */
+  border-collapse: collapse;  
+}
+
+tr, td {
+  height: 35px;
+  border-bottom: 1px solid black;
+}
+
+#button_contain button{
+  margin: 60px 15px;
+  color: white;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#edit{
+  background-color: #1B8244;
+}
+
+#delete{
+  background-color: #D12E2E;
+}
+
+#back , #continue{
+  display: inline block;
+  color: whitesmoke;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 40px 20px; 
+  padding: 20px;
+  border-radius: 20px;
+}
+
+#back{
+  background-color: #3F479E;
+}
+
+#continue{
+  background-color: #358039;
+}

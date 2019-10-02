@@ -1,0 +1,45 @@
+{% extends "quanlitaisan/base.html" %}
+{% block title %} Quản lí tài sản - Home page {% endblock %}
+{% block content %}
+  <h1>Phần mềm Quản lý tài sản</h1>
+
+  <h3>Các tài sản gần thêm gần đây</h3>
+
+  <table>
+    <tr>
+      <th>Mã tài sản</th>
+      <th>Loại tài sản</th>
+      <th>Tên tài sản</th>
+      <th>Ngày bắt đầu sử dụng</th>
+      <th>Số năm sử dụng</th>
+    </tr>
+    {% for item in assets %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td> {{ item.get_loai_tai_san_display }} </td>
+        <td><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></td>
+        <td class="start_date">{{ item.ngay_su_dung }}</td>
+        <td class="year">{{ item.thoi_gian_sd  }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+
+  <h3>Bảo trì gần đây</h3>
+
+  <table>
+    <tr>
+      <th>Ngày bảo trì</th>
+      <th>Tài sản bảo trì</th>
+      <th>Tiêu đề</th>
+    </tr>
+    {% for entry in maintains %}
+    <tr>
+        <td>{{ entry.ngay_bao_tri }}</td>
+        <td><a href="{% url 'quanlitaisan:details' entry.tai_san_bao_tri.id %}">{{ entry.tai_san_bao_tri.ten_tai_san }}</a></td>
+        <td>{{ entry.tieu_de}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}

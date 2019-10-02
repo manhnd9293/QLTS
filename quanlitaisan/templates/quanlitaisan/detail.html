@@ -1,0 +1,85 @@
+{% extends "quanlitaisan/base.html" %}
+
+{% block extra_css %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'quanlitaisan/css/details.css' %}">
+{% endblock %}
+{% block content %}
+<h2>Thông tin tài sản</h2>
+
+<table id = 'detail_table'>
+    <tr>
+        <td>Mã tài sản:</td>
+        <td>{{ obj.id }}</td>
+      </tr>
+  <tr>
+    <td>Loại tài sản:</td>
+    <td>{{ obj.get_loai_tai_san_display }}</td>
+  </tr>
+  <tr>
+    <td>Tên tài sản:</td>
+    <td> {{ obj.ten_tai_san }}</td>
+  </tr>
+  <tr>
+    <td>Ngày bắt đầu sử dụng:</td>
+    <td>{{ obj.ngay_su_dung }}</td>
+  </tr>
+  <tr>
+    <td>Thời gian sử dụng:</td>
+    <td>{{ obj.thoi_gian_sd }}</td>
+  </tr>
+  <tr>
+    <td>Thời hạn bảo hành:</td>
+    <td>{{ obj.thoi_han_bao_hanh }}</td>
+  </tr>
+  <tr>
+    <td>Tài sản cha</td>
+    {%if obj.tai_san_cha %}
+      <td><a href="{% url 'quanlitaisan:details'  obj.tai_san_cha.id  %}">{{obj.tai_san_cha.ten_tai_san}}</a></td>
+    {% else %}
+      <td>None</td>
+    {% endif %}
+  </tr>
+  <tr>
+    <td>Tài sản con</td>
+    <td>
+      <div id="child_list">
+        {%if child %}
+          <ul>
+          {% for asset in child %}
+            <li><a href="{% url 'quanlitaisan:details' asset.id  %}">{{asset.ten_tai_san}}</a></li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          None
+        {% endif %}
+      </div>
+    </td>
+  </tr>
+  
+</table>
+
+<h2>Lịch sử bảo trì</h2>
+{% if history %}
+  <table>
+    <tr>
+      <th>Ngày bảo trì</th>
+      <th>Nội dung tóm tắt</th>
+    </tr>
+    {% for entry in history %}
+      <tr>
+        <td>{{ entry.ngay_bao_tri }}</td>
+        <td><a href="{% url 'quanlitaisan:maintains' entry.id %}">{{ entry.tieu_de}}</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+<p>None</p>
+{% endif %}
+
+<div id="button_contain">
+  <button id="edit">  Sửa thông tin</button>
+  <button id="delete"> Xóa tài sản </button>
+</div>
+  
+{% endblock %}

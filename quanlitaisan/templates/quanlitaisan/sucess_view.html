@@ -1,0 +1,11 @@
+{% extends "quanlitaisan/base.html" %}
+{% block title %} Lưu thành công {% endblock %}
+{% block content %}
+  <div id="save_respone"> 
+    <h2> Đã lưu vào cơ sở dữ liệu. Bạn có muốn tiếp tục ? </h2>
+    <div id= "links">
+      <a id="back" href="/"> Quay lại trang chủ </a>
+      <a id="continue" href={{ url_name }}>Tiếp tục </a>  
+    </div>
+  </div>
+{% endblock %}

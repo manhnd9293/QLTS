@@ -1,0 +1,125 @@
+body {
+  background-color: #F1EFE2;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  margin: 0px;
+
+}
+
+.wrapper {
+  min-height: 100vh ;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header,
+.page-footer {
+  flex-shrink: 0;
+}
+
+.page-footer{
+  background-color: #484444;
+  height: 40px;
+  color: whitesmoke;
+  font-size: .75rem;
+
+  font-weight: bold;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.page-body {
+  flex-grow: 1;
+}
+
+header {
+  background: url(../images/workspace3.jpg);
+  background-size:  cover;
+  background-repeat: no-repeat;
+  height: 120px;
+  color: whitesmoke;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+
+}
+
+header h1 {
+  /* position: relative; */
+  /* top: 30%; */
+  font-size: 1.1em;
+  margin: 0 30px;
+  text-transform: uppercase;
+  
+}
+
+header h1 a{
+  text-decoration: none;
+  color: white;
+}
+
+nav {
+  background-color:brown;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  text-transform: uppercase;
+  color: white;
+  padding: 10px;
+}
+
+nav a {
+  /* display: block; */
+  text-decoration: none;
+  color: white;
+  margin: 0 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+section {
+  margin: 0 30px;
+}
+
+#save_respone{
+  position: relative;
+  top: 25%;
+  left: 20%;
+}
+
+#links{
+  display: block;
+  padding: 20px;
+}
+
+#child_list {
+  height: 160px;
+  overflow-y: scroll;
+  text-align: left;
+}
+
+#child_list li{
+  list-style-type: none;
+  /* text-align: left; */
+}
+
+form{
+  display: block;
+  width: 800px;
+}
+
+form p label{
+  display: inline-block;
+  width: 150px;
+}
+
+label{
+  vertical-align: top;
+}

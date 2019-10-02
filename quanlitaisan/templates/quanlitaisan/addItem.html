@@ -1,0 +1,9 @@
+{% extends "quanlitaisan/base.html" %}
+{% block content %}
+  <h1>Thêm tài sản mới</h1>
+  <form action= '' method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Lưu dữ liệu">
+  </form>
+{% endblock %}

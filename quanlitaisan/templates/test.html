@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    
+    .wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    }
+
+    .page-header, .page-footer {
+        flex-shrink: 1;
+        background-color: aqua;
+    }
+
+    .page-body {
+        flex-grow: 1;
+    }
+    #gido{
+      background-color: aquamarine;
+      border: 20px solid saddlebrown;
+      margin: 40px;
+    }
+    #gido p {
+      margin: 40px;
+    }
+
+    #test{
+      overflow-y: scroll;
+      height: 80px;
+      width: 200px;
+    }
+    #aft::after{
+      content: ''
+    }
+    #intest{
+      width: 50px;
+    }
+    #intest::before{
+      content: 'more text';
+    }
+  </style>
+</head>
+<body>
+    <div class="wrapper">
+      <header class="page-header">This is the header</header>
+      <main class="page-body">
+        <p>Main page content here, add more if you want to see the footer push down.</p>
+        <div id='gido'>
+            <p>test text</p>
+        </div>
+      </main>
+        <div id="test">
+          Long long text <br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+          Long long text<br>
+        </div>
+        <span id="aft">abc</span>
+        <input type="text" id="intest"> <span>more</span>
+        <input type="date">
+        <input type="text">
+      <footer class="page-footer">Sticky footer</footer>
+      
+    </div>
+
+        
+</body>
+</html>

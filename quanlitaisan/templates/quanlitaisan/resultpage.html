@@ -1,0 +1,40 @@
+{% extends "quanlitaisan/base.html" %}
+
+{% block extra_css %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'quanlitaisan/css/result.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1>Kết quả tìm kiếm</h1>
+  
+  {%if obj|length > 0 %}
+    <!-- <ul>
+      {% for item in obj %}
+       <li><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></li>
+      {% endfor %}
+    </ul> -->
+
+      <table>
+          <tr>
+            <th class="id">Mã tài sản</th>
+            <th>Tên tài sản</th>
+            <th class="start_date">Ngày bắt đầu sử dụng</th>
+            <th class="year">Số năm sử dụng</th>
+          </tr>
+          {% for item in obj %}
+            <!-- <li><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></li> -->
+          <tr>
+            <td class="id">{{ item.id }}</td>
+            <td><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></td>
+            <td class="start_date">{{ item.ngay_su_dung }}</td>
+            <td class="year">{{ item.thoi_gian_sd  }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+   
+    <br>
+  {% else %}
+    <p>Không tìm thấy kết quả nào</p>
+  {% endif %}
+{% endblock %}
