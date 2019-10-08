@@ -83,6 +83,7 @@ def maintains(request, maintain_id):
   return render(request, 'quanlitaisan/maintain_details.html',{'obj': obj, 'title': 'Chi tiết bảo trì'})
 
 def assets_list(request, page):
+  #add a comment
   assets_all = TaiSan.objects.all()
   paginator = Paginator(assets_all, 25)
   title = 'Danh sách tài sản'
