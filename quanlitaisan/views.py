@@ -7,9 +7,11 @@ from django.core.paginator import Paginator
 
 def index(req):
   assets = TaiSan.objects.all()
-  assets = reversed(assets[(len(assets)-5):])
+  if assets.count() > 5: 
+    assets = reversed(assets[(len(assets)-5):])
   maintains = LichSuBaoTri.objects.all()
-  maintains = reversed(maintains[(len(maintains)-5):])
+  if maintains.count() > 5:
+    maintains = reversed(maintains[(len(maintains)-5):])
   print(maintains)
   return render(req, 'quanlitaisan/index.html', {'assets': assets,'maintains' : maintains})
 
