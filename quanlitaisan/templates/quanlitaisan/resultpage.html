@@ -18,6 +18,7 @@
       <table>
           <tr>
             <th class="id">Mã tài sản</th>
+            <th class="id">Loại tài sản</th>
             <th>Tên tài sản</th>
             <th class="start_date">Ngày bắt đầu sử dụng</th>
             <th class="year">Số năm sử dụng</th>
@@ -26,6 +27,7 @@
             <!-- <li><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></li> -->
           <tr>
             <td class="id">{{ item.id }}</td>
+            <td >{{ item.get_loai_tai_san_display }}</td>
             <td><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></td>
             <td class="start_date">{{ item.ngay_su_dung }}</td>
             <td class="year">{{ item.thoi_gian_sd  }}</td>

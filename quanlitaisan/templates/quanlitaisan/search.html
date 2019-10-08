@@ -6,8 +6,23 @@
   <p>
     <label for="asset_id"> ID tài sản: </label>
     <input type="text" name="asset_id" >
+   
   </p>
-  {{form.as_p}}
+  <p><label for="id_loai_tai_san">Loại tài sản:</label> 
+    <select name="loai_tai_san" id="id_loai_tai_san">
+    <option value="" selected>---------</option>
+  
+    <option value="VT">Vật tư</option>
+  
+    <option value="TB">Thiết bị</option>
+  
+  </select>
+  </p>
+  <p>
+    <label for="id_ten_tai_san">Tên tài sản:</label> 
+    <input type="text" name="ten_tai_san" maxlength="20" id="id_ten_tai_san">
+  </p>
+  <!-- {{form.as_p}} -->
   <input type="submit" name="Search" value = "Tìm kiếm" id="">
 </form>
 {% endblock %}

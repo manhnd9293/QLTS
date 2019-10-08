@@ -3,9 +3,9 @@
 {% block content %}
   <h1>Phần mềm Quản lý tài sản</h1>
 
-  <h3>Các tài sản gần thêm gần đây</h3>
+  <h3>Tài sản gần thêm gần đây</h3>
 
-  <table>
+  <table class="recent">
     <tr>
       <th>Mã tài sản</th>
       <th>Loại tài sản</th>
@@ -27,7 +27,7 @@
 
   <h3>Bảo trì gần đây</h3>
 
-  <table>
+  <table class="recent">
     <tr>
       <th>Ngày bảo trì</th>
       <th>Tài sản bảo trì</th>
@@ -37,7 +37,7 @@
     <tr>
         <td>{{ entry.ngay_bao_tri }}</td>
         <td><a href="{% url 'quanlitaisan:details' entry.tai_san_bao_tri.id %}">{{ entry.tai_san_bao_tri.ten_tai_san }}</a></td>
-        <td>{{ entry.tieu_de}}</td>
+        <td><a href="{% url 'quanlitaisan:maintains' entry.id %}">{{ entry.tieu_de}}</a></td>
     </tr>
     {% endfor %}
   </table>

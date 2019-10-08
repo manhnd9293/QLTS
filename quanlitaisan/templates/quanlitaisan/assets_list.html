@@ -6,38 +6,40 @@
 {% endblock %}
 {% block content %}
   <h1>Danh sách tài sản</h1>
-  <table>
-  <tr>
-    <th>Mã tài sản</th>
-    <th>Loại tài sản</th>
-    <th>Tên tài sản</th>
-    <th>Ngày bắt đầu sử dụng</th>
-    <th>Số năm sử dụng</th>
-  </tr>
-  {% for item in assets %}
-    <tr>
-      <td>{{ item.id }}</td>
-      <td> {{ item.get_loai_tai_san_display }} </td>
-      <td><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></td>
-      <td class="start_date">{{ item.ngay_su_dung }}</td>
-      <td class="year">{{ item.thoi_gian_sd  }}</td>
-    </tr>
-  {% endfor %}
-</table>
-  <div class="pagination">
-      <span class="step-links">
-          {% if assets.has_previous %}
-              <a href="1">&laquo; first</a>
-              <a href="{{ assets.previous_page_number }}">previous</a>
-          {% endif %}
+  <div>
+    <table>
+      <tr>
+        <th>Mã tài sản</th>
+        <th>Loại tài sản</th>
+        <th>Tên tài sản</th>
+        <th>Ngày bắt đầu sử dụng</th>
+        <th>Số năm sử dụng</th>
+      </tr>
+      {% for item in assets %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td> {{ item.get_loai_tai_san_display }} </td>
+          <td><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></td>
+          <td class="start_date">{{ item.ngay_su_dung }}</td>
+          <td class="year">{{ item.thoi_gian_sd  }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if assets.has_previous %}
+                <a href="1">&laquo; first</a>
+                <a href="{{ assets.previous_page_number }}">previous</a>
+            {% endif %}
 
-          <span class="current">
-              Page {{ assets.number }} of {{ assets.paginator.num_pages }}.
-          </span>
+        <span class="current">
+                Page {{ assets.number }} of {{ assets.paginator.num_pages }}.
+        </span>
           {% if assets.has_next %}
               <a href="{{ assets.next_page_number }}">next</a>
               <a href="{{ assets.paginator.num_pages }}">last &raquo;</a>
           {% endif %}
-      </span>
+        </span>
+    </div>
   </div>
 {% endblock %}

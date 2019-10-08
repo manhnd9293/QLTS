@@ -24,7 +24,6 @@ body {
   font-size: .75rem;
 
   font-weight: bold;
-  align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,31 +36,44 @@ body {
 }
 
 header {
-  background: url(../images/workspace3.jpg);
+  /* background: url(../images/workspace3.jpg);
   background-size:  cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   height: 120px;
   color: whitesmoke;
 
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.8em;
 }
 
-header h1 {
-  /* position: relative; */
-  /* top: 30%; */
-  font-size: 1.1em;
-  margin: 0 30px;
+header img {
+  margin: 0 15px;
+  width: 100px;
+  height: 100px;
+}
+
+header a {
+  display: block;
+  font-size: 1em;
+  margin: 30px;
   text-transform: uppercase;
   
 }
 
-header h1 a{
+
+header a {
   text-decoration: none;
-  color: white;
+  color: maroon;
+  font-weight: bold;  
+}
+
+header a p {
+  margin: 0px 0px 25px 0px;
+  font-size: 1.2rem;
+  color: darkgreen;
 }
 
 nav {
@@ -122,4 +134,34 @@ form p label{
 
 label{
   vertical-align: top;
+}
+
+.recent {
+  border-collapse: collapse;
+  width: 50%;
+  margin: 30px 10px;
+}
+  
+.recent th, .recent tr, .recent td{
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.pagination{
+  width: 90%;
+  margin: 15px auto;
+  padding: 15px;
+  text-align: center;
+}
+
+.pagination span {
+  margin: 10px;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.pagination a{
+  text-decoration: none;
+  margin: 0px 5px;
+
 }

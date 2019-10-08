@@ -22,40 +22,40 @@ def details(req, asset_id):
 
 
 def search_view(request):
-  form = FormTimKiemTaiSan(request.GET)
-  if form.is_valid():
-    user_data = form.cleaned_data
-    print(user_data)
+  # form = FormTimKiemTaiSan(request.GET)
+  if request.GET:
     q = TaiSan.objects
-
     id = request.GET.get('asset_id')
     if id:
       q = q.filter(id = id)
 
-    loai_ts = user_data.get('loai_tai_san')
-    q = q.filter(loai_tai_san = loai_ts)
+    loai_ts = request.GET.get('loai_tai_san')
+    if loai_ts:
+      q = q.filter(loai_tai_san = loai_ts)
 
-    ten_ts = user_data.get('ten_tai_san')  
-    q = q.filter(ten_tai_san__icontains = ten_ts)
+    ten_ts = request.GET.get('ten_tai_san')  
+    if ten_ts:
+      q = q.filter(ten_tai_san__icontains = ten_ts)
+    print(q)
     return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
   else:
-    form = FormTimKiemTaiSan()
-    return render(request, 'quanlitaisan/search.html', {'form' : form, 'title': 'Tìm kiếm tài sản'})
+    # form = FormTimKiemTaiSan()
+    return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
 
 
 def add_item(request):
   if request.method == 'POST':
-      form = FormTaiSan(request.POST)
-      if form.is_valid():
-        user_data = form.cleaned_data
-        new_item = TaiSan(**user_data)
-        new_item.save()
+    form = FormTaiSan(request.POST)
+    if form.is_valid():
+      user_data = form.cleaned_data
+      new_item = TaiSan(**user_data)
+      new_item.save()
 
-        context = {
-          'url_name' : '/addItem',
-          'title' : 'Lưu thành công'
-        }
-        return render(request, 'quanlitaisan/sucess_view.html', context)
+      context = {
+        'url_name' : '/addItem',
+        'title' : 'Lưu thành công'
+      }
+      return render(request, 'quanlitaisan/sucess_view.html', context)
   else:
       form = FormTaiSan()
   return render(request, 'quanlitaisan/addItem.html', {'form': form, 'title' : 'Thêm tài sản'})
@@ -85,8 +85,6 @@ def maintains(request, maintain_id):
 def assets_list(request, page):
   assets_all = TaiSan.objects.all()
   paginator = Paginator(assets_all, 25)
-  # page = request.GET.get('page')
-  # page = 1
   title = 'Danh sách tài sản'
   assets = paginator.get_page(page)
   return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title})
