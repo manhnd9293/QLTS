@@ -44,7 +44,6 @@ def search_view(request):
     # form = FormTimKiemTaiSan()
     return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
 
-
 def add_item(request):
   if request.method == 'POST':
     form = FormTaiSan(request.POST)
@@ -91,3 +90,10 @@ def assets_list(request, page):
   title = 'Danh sách tài sản'
   assets = paginator.get_page(page)
   return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title})
+
+
+from django.views import View
+
+class MyView(View):
+  def get(self, request):
+    return render(request, 'quanlitaisan/base.html', {'title' : 'About us'})

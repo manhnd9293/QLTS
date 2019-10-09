@@ -10,5 +10,6 @@ urlpatterns = [
   path('search/', views.search_view, name = 'search'),
   path('addItem/', views.add_item, name = 'add_item'),
   path('addMaintain/', views.add_maintain, name = 'add_maintain'),
-  path('assets/<int:page>', views.assets_list, name = 'assets_list')
+  path('assets/<int:page>', views.assets_list, name = 'assets_list'),
+  path('about/',views.MyView.as_view())
 ]
