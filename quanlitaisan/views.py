@@ -23,23 +23,6 @@ def details(req, asset_id):
 
 
 
-def add_item(request):
-  if request.method == 'POST':
-    form = FormTaiSan(request.POST)
-    if form.is_valid():
-      user_data = form.cleaned_data
-      new_item = TaiSan(**user_data)
-      new_item.save()
-
-      context = {
-        'url_name' : '/addItem',
-        'title' : 'Lưu thành công'
-      }
-      return render(request, 'quanlitaisan/sucess_view.html', context)
-  else:
-      form = FormTaiSan()
-  return render(request, 'quanlitaisan/addItem.html', {'form': form, 'title' : 'Thêm tài sản'})
-
 def add_maintain(request):
   if request.method == 'POST':
     form = FormBaoTri(request.POST)
@@ -95,4 +78,52 @@ class SearchView(View):
       return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
     else:
       return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
+
+
+def add_item(request):
+  if request.method == 'POST':
+    form = FormTaiSan(request.POST)
+    if form.is_valid():
+      user_data = form.cleaned_data
+      new_item = TaiSan(**user_data)
+      new_item.save()
+
+      context = {
+        'url_name' : '/addItem',
+        'title' : 'Lưu tài sản thành công'
+      }
+      return render(request, 'quanlitaisan/sucess_view.html', context)
+  else:
+      form = FormTaiSan()
+  return render(request, 'quanlitaisan/addItem.html', {'form': form, 'title' : 'Thêm tài sản'})
+
+
+class AddAssetView(View):
+  form_class = FormTaiSan
+  initial = {}
+  template_name = 'quanlitaisan/addItem.html'
+  
+
+  def get(self, request):
+    print(self.form_class)
+    form = self.form_class()
+    context = {
+        'title' : 'Thêm tài sản',
+        'form' : form
+    }
+    return render(request, self.template_name, context)
+  
+  def post(self, request):
+    form = self.form_class(request.POST)
+    if form.is_valid():
+      user_data = form.cleaned_data
+      new_item = TaiSan(**user_data)
+      new_item.save()
+      
+      context = {
+        'url_name' : '/addItem',
+        'title' : 'Lưu tài sản thành công'
+      }
+      return render(request, 'quanlitaisan/sucess_view.html', context)
+    return render(request, self.template_name, {'title': 'Invalid input'})
 
