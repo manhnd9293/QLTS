@@ -24,20 +24,3 @@ tr, td {
   background-color: #D12E2E;
 }
 
-#back , #continue{
-  display: inline block;
-  color: whitesmoke;
-  text-decoration: none;
-  font-weight: bold;
-  margin: 40px 20px; 
-  padding: 20px;
-  border-radius: 20px;
-}
-
-#back{
-  background-color: #3F479E;
-}
-
-#continue{
-  background-color: #358039;
-}
