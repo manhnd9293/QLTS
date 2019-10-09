@@ -4,7 +4,6 @@ from .forms import FormTaiSan, FormBaoTri, FormTimKiemTaiSan
 from .models import TaiSan, LichSuBaoTri
 from django.core.paginator import Paginator
 
-
 def index(req):
   assets = TaiSan.objects.all()
   if assets.count() > 5: 
@@ -23,26 +22,6 @@ def details(req, asset_id):
   return render(req, 'quanlitaisan/detail.html', context)
 
 
-def search_view(request):
-  # form = FormTimKiemTaiSan(request.GET)
-  if request.GET:
-    q = TaiSan.objects
-    id = request.GET.get('asset_id')
-    if id:
-      q = q.filter(id = id)
-
-    loai_ts = request.GET.get('loai_tai_san')
-    if loai_ts:
-      q = q.filter(loai_tai_san = loai_ts)
-
-    ten_ts = request.GET.get('ten_tai_san')  
-    if ten_ts:
-      q = q.filter(ten_tai_san__icontains = ten_ts)
-    print(q)
-    return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
-  else:
-    # form = FormTimKiemTaiSan()
-    return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
 
 def add_item(request):
   if request.method == 'POST':
@@ -91,9 +70,29 @@ def assets_list(request, page):
   assets = paginator.get_page(page)
   return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title})
 
-
 from django.views import View
 
 class MyView(View):
   def get(self, request):
     return render(request, 'quanlitaisan/base.html', {'title' : 'About us'})
+
+class SearchView(View):
+  def get(self, request):
+    if request.GET:
+      q = TaiSan.objects
+      id = request.GET.get('asset_id')
+      
+      if id:
+        q = q.filter(id = id)
+      loai_ts = request.GET.get('loai_tai_san')
+      
+      if loai_ts:
+        q = q.filter(loai_tai_san = loai_ts)
+      
+      ten_ts = request.GET.get('ten_tai_san')  
+      if ten_ts:
+        q = q.filter(ten_tai_san__icontains = ten_ts)
+      return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
+    else:
+      return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
+
