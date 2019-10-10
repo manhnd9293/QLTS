@@ -21,26 +21,6 @@ def details(req, asset_id):
   context = {'obj' : obj, 'title': 'Chi tiết','child' : child_assets, 'history' : history}
   return render(req, 'quanlitaisan/detail.html', context)
 
-
-
-def add_maintain(request):
-  if request.method == 'POST':
-    form = FormBaoTri(request.POST)
-    if form.is_valid():
-      user_data = form.cleaned_data
-      new_item = LichSuBaoTri(**user_data)
-      new_item.save()
-
-      context = {
-        'url_name' : '/addMaintain',
-        'title' : 'Thêm thành công'
-      }
-      return render(request, 'quanlitaisan/sucess_view.html', context)
-  else:
-    form = FormBaoTri()
-
-  return render(request, 'quanlitaisan/addMaintain.html', {'form': form, 'title': 'Thêm bảo trì'})
-
 def maintains(request, maintain_id):
   obj = LichSuBaoTri.objects.get(pk = maintain_id)
   return render(request, 'quanlitaisan/maintain_details.html',{'obj': obj, 'title': 'Chi tiết bảo trì'})
@@ -52,6 +32,16 @@ def assets_list(request, page):
   title = 'Danh sách tài sản'
   assets = paginator.get_page(page)
   return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title})
+
+def remove_asset(request, asset_id):
+  obj = TaiSan.objects.get(pk = asset_id)
+  obj.delete() 
+  context = {
+        'url_name' : '/assets/1',
+        'title' :'Xóa thành công'
+      }
+  return render(request, 'quanlitaisan/sucess_view.html', context)
+
 
 from django.views import View
 
@@ -81,12 +71,9 @@ class SearchView(View):
 
 class AddAssetView(View):
   form_class = FormTaiSan
-  initial = {}
   template_name = 'quanlitaisan/addItem.html'
   
-
   def get(self, request):
-    print(self.form_class)
     form = self.form_class()
     context = {
         'title' : 'Thêm tài sản',
@@ -106,5 +93,28 @@ class AddAssetView(View):
         'title' : 'Lưu tài sản thành công'
       }
       return render(request, 'quanlitaisan/sucess_view.html', context)
-    return render(request, self.template_name, {'title': 'Invalid input'})
+    return render(request, self.template_name, {'title': 'Invalid input', 'form' : form})
 
+class AddMaintain(View):
+  form_class = FormBaoTri
+  template_name = 'quanlitaisan/addMaintain.html'
+  def get(self, request):
+    form = self.form_class()
+    return render(request, self.template_name , {'form': form, 'title': 'Thêm bảo trì'})
+
+  def post(self, request):
+    form = FormBaoTri(request.POST)
+    if form.is_valid():
+      user_data = form.cleaned_data
+      new_item = LichSuBaoTri(**user_data)
+      new_item.save()
+
+      context = {
+        'url_name' : '/addMaintain',
+        'title': 'Thêm thành công'
+      }
+      return render(request, 'quanlitaisan/sucess_view.html', context)
+    else:
+      return render(request, self.template_name, {'form': form, 'title': 'Invalid input'})
+    
+    

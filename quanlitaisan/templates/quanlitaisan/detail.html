@@ -80,6 +80,15 @@
 <div id="button_contain">
   <button id="edit">  Sửa thông tin</button>
   <button id="delete"> Xóa tài sản </button>
+  <a href="{% url 'quanlitaisan:remove_asset' obj.id %}">Xóa tài sản</a>
+  <script>
+      let deleteButton = document.querySelector('#delete');
+      deleteButton.addEventListener('click',async function(){
+      url = "{% url 'quanlitaisan:remove_asset' obj.id %}";
+      console.log(url);
+      let response = await fetch(url);
+    });
+  </script>
 </div>
   
 {% endblock %}
