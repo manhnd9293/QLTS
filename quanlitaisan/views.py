@@ -42,7 +42,6 @@ def remove_asset(request, asset_id):
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
 
-
 from django.views import View
 
 class MyView(View):
@@ -98,6 +97,7 @@ class AddAssetView(View):
 class AddMaintain(View):
   form_class = FormBaoTri
   template_name = 'quanlitaisan/addMaintain.html'
+  
   def get(self, request):
     form = self.form_class()
     return render(request, self.template_name , {'form': form, 'title': 'Thêm bảo trì'})
