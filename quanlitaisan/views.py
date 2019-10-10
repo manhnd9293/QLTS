@@ -79,25 +79,6 @@ class SearchView(View):
     else:
       return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
 
-
-def add_item(request):
-  if request.method == 'POST':
-    form = FormTaiSan(request.POST)
-    if form.is_valid():
-      user_data = form.cleaned_data
-      new_item = TaiSan(**user_data)
-      new_item.save()
-
-      context = {
-        'url_name' : '/addItem',
-        'title' : 'Lưu tài sản thành công'
-      }
-      return render(request, 'quanlitaisan/sucess_view.html', context)
-  else:
-      form = FormTaiSan()
-  return render(request, 'quanlitaisan/addItem.html', {'form': form, 'title' : 'Thêm tài sản'})
-
-
 class AddAssetView(View):
   form_class = FormTaiSan
   initial = {}
