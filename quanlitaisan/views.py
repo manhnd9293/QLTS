@@ -42,6 +42,9 @@ def remove_asset(request, asset_id):
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
 
+def kiemke(request):
+  return render(request, 'quanlitaisan/kiemke.html',{})
+
 from django.views import View
 
 class MyView(View):
@@ -68,6 +71,7 @@ class SearchView(View):
     else:
       return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
 
+
 class AddAssetView(View):
   form_class = FormTaiSan
   template_name = 'quanlitaisan/addItem.html'
@@ -82,6 +86,7 @@ class AddAssetView(View):
   
   def post(self, request):
     form = self.form_class(request.POST)
+    print(request.POST)
     if form.is_valid():
       user_data = form.cleaned_data
       new_item = TaiSan(**user_data)
@@ -116,5 +121,5 @@ class AddMaintain(View):
       return render(request, 'quanlitaisan/sucess_view.html', context)
     else:
       return render(request, self.template_name, {'form': form, 'title': 'Invalid input'})
-    
-    
+
+

@@ -13,4 +13,5 @@ urlpatterns = [
   path('assets/<int:page>', views.assets_list, name = 'assets_list'),
   path('about/', views.MyView.as_view(), name = 'test'),
   path('remove/<int:asset_id>', views.remove_asset, name = 'remove_asset'),
+  path('kiemke', views.kiemke, name = 'kiemke'),
 ]

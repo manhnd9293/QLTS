@@ -183,3 +183,7 @@ label{
 #continue{
   background-color: #358039;
 }
+
+form input {
+  line-height: 20px;
+}

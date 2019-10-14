@@ -46,37 +46,17 @@
   </style>
 </head>
 <body>
-    <div class="wrapper">
-      <header class="page-header">This is the header</header>
-      <main class="page-body">
-        <p>Main page content here, add more if you want to see the footer push down.</p>
-        <div id='gido'>
-            <p>test text</p>
-        </div>
-      </main>
-        <div id="test">
-          Long long text <br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-          Long long text<br>
-        </div>
-        <p>test para</p>
-        <span id="aft">abc</span>
-        <input type="text" id="intest"> <span>more</span>
-        <input type="date">
-        <input type="text">
-      <footer class="page-footer">Sticky footer</footer>
-      
-    </div>
-
-        
+    <input id= 'test' type="text" value="123">
+    <span id="infor"></span>
+    <script>
+      let ipt = document.querySelector("#test");
+      console.log(ipt.value);
+      let infor = document.querySelector("#infor");
+      ipt.addEventListener('input', (event) =>{
+        infor.textContent = ipt.value;
+        console.log(ipt.textContent);
+         
+      });
+    </script> 
 </body>
 </html>

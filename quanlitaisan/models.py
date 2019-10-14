@@ -7,6 +7,11 @@ class TaiSan(models.Model):
     ('VT', 'Vật tư'),
     ('TB', 'Thiết bị')
   ]
+
+  HIEN_TRANG = [
+    ('SD', 'Đang sử dụng'),
+    ('BH', 'Bị hỏng'),
+  ]
   
   loai_tai_san       = models.CharField('loại tài sản', max_length = 2, choices = LOAI_TAI_SAN)
   ten_tai_san        = models.CharField('tên tài sản', max_length = 20)
@@ -14,6 +19,8 @@ class TaiSan(models.Model):
   thoi_han_bao_hanh  = models.PositiveIntegerField('số năm bảo hành')
   thoi_gian_sd       = models.PositiveIntegerField('số năm sử dụng')
   tai_san_cha        = models.ForeignKey('self', on_delete = models.SET_NULL, null = True, blank = True,verbose_name = 'Thiết bị chứa')
+  dia_diem           = models.CharField('Địa điểm', max_length = 20)
+  hien_trang         = models.CharField('Hiện trạng', max_length = 2, choices = HIEN_TRANG)
   
   def __str__(self):
     ten_hien_thi = str(self.id) + '_'+  self.ten_tai_san
