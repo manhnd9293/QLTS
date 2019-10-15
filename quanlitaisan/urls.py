@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from . import views
+from . import views, api
 
 app_name = 'quanlitaisan'
 
@@ -14,4 +14,5 @@ urlpatterns = [
   path('about/', views.MyView.as_view(), name = 'test'),
   path('remove/<int:asset_id>', views.remove_asset, name = 'remove_asset'),
   path('kiemke', views.kiemke, name = 'kiemke'),
+  path('api/<int:asset_id>', api.json_detail, name = 'json_details'),
 ]

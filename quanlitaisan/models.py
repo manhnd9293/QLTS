@@ -25,6 +25,9 @@ class TaiSan(models.Model):
   def __str__(self):
     ten_hien_thi = str(self.id) + '_'+  self.ten_tai_san
     return ten_hien_thi
+ 
+
+
 
 class LichSuBaoTri(models.Model):
   ngay_bao_tri    = models.DateField('Ngày Bảo Trì')
