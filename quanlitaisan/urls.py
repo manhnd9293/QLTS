@@ -13,6 +13,7 @@ urlpatterns = [
   path('assets/<int:page>', views.assets_list, name = 'assets_list'),
   path('about/', views.MyView.as_view(), name = 'test'),
   path('remove/<int:asset_id>', views.remove_asset, name = 'remove_asset'),
-  path('kiemke', views.kiemke, name = 'kiemke'),
-  path('api/<int:asset_id>', api.json_detail, name = 'json_details'),
+  path('kiemke', views.Inspect.as_view(), name = 'kiemke'),
+  path('api/<str:asset_id>', api.json_detail, name = 'json_details'),
+  path('csv', views.csv_export, name = 'csv'),
 ]

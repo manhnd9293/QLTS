@@ -42,8 +42,23 @@ def remove_asset(request, asset_id):
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
 
-def kiemke(request):
-  return render(request, 'quanlitaisan/kiemke.html',{})
+import csv
+
+def csv_export(request):
+  response = HttpResponse(content_type='text/csv')
+  response['Content-Disposition'] = 'attachment; filename="allItem.csv"'
+  writer = csv.writer(response)
+  q = TaiSan.objects.all()
+  meta = TaiSan._meta
+  all_fields = [field.name for field in meta.fields]
+  print(all_fields)
+  writer.writerow(all_fields)
+  for ast in q:
+    data = []
+    for f in all_fields:
+      data.append(getattr(ast, f))
+    writer.writerow(data)
+  return response
 
 from django.views import View
 
@@ -91,7 +106,6 @@ class AddAssetView(View):
       user_data = form.cleaned_data
       new_item = TaiSan(**user_data)
       new_item.save()
-      
       context = {
         'url_name' : '/addItem',
         'title' : 'Lưu tài sản thành công'
@@ -121,5 +135,18 @@ class AddMaintain(View):
       return render(request, 'quanlitaisan/sucess_view.html', context)
     else:
       return render(request, self.template_name, {'form': form, 'title': 'Invalid input'})
+
+class Inspect(View):
+  def get(self, request):
+    return render(request, 'quanlitaisan/kiemke.html',{})
+  
+  def post(self, request):
+    context = {
+      'url_name' : '/kiemke',
+      'title' : 'Lưu tài sản thành công'
+    }
+    infor = request.POST
+    print(infor)
+    return render(request, 'quanlitaisan/sucess_view.html', context)
 
 
