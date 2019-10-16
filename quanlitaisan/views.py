@@ -69,6 +69,7 @@ class MyView(View):
 class SearchView(View):
   def get(self, request):
     if request.GET:
+      print(request.GET)
       q = TaiSan.objects
       id = request.GET.get('asset_id')
       
@@ -138,12 +139,12 @@ class AddMaintain(View):
 
 class Inspect(View):
   def get(self, request):
-    return render(request, 'quanlitaisan/kiemke.html',{})
+    return render(request, 'quanlitaisan/kiemke.html',{'title': 'Kiểm kê'})
   
   def post(self, request):
     context = {
       'url_name' : '/kiemke',
-      'title' : 'Lưu tài sản thành công'
+      'title' : 'Lưu dữ liệu thành công'
     }
     infor = request.POST
     print(infor)
