@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import FormTaiSan, FormBaoTri, FormTimKiemTaiSan
 from .models import TaiSan, LichSuBaoTri
 from django.core.paginator import Paginator
+from .api import FileExport
+
 
 def index(req):
   assets = TaiSan.objects.all()
@@ -42,23 +44,7 @@ def remove_asset(request, asset_id):
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
 
-import csv
 
-def csv_export(request):
-  response = HttpResponse(content_type='text/csv')
-  response['Content-Disposition'] = 'attachment; filename="allItem.csv"'
-  writer = csv.writer(response)
-  q = TaiSan.objects.all()
-  meta = TaiSan._meta
-  all_fields = [field.name for field in meta.fields]
-  print(all_fields)
-  writer.writerow(all_fields)
-  for ast in q:
-    data = []
-    for f in all_fields:
-      data.append(getattr(ast, f))
-    writer.writerow(data)
-  return response
 
 from django.views import View
 
@@ -70,7 +56,7 @@ class SearchView(View):
   def get(self, request):
     if request.GET:
       print(request.GET)
-      q = TaiSan.objects
+      q = TaiSan.objects.all()
       id = request.GET.get('asset_id')
       
       if id:
@@ -83,6 +69,7 @@ class SearchView(View):
       ten_ts = request.GET.get('ten_tai_san')  
       if ten_ts:
         q = q.filter(ten_tai_san__icontains = ten_ts)
+      FileExport.export_data = q
       return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
     else:
       return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
@@ -151,3 +138,6 @@ class Inspect(View):
     return render(request, 'quanlitaisan/sucess_view.html', context)
 
 
+def test(request):
+  print('test is called')
+  return HttpResponse('done test')
