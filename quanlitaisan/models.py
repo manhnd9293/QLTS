@@ -23,7 +23,7 @@ class TaiSan(models.Model):
   hien_trang         = models.CharField('Hiện trạng', max_length = 2, choices = HIEN_TRANG)
   
   def __str__(self):
-    ten_hien_thi = 'id :' + str(self.id) + ' '+ 'name: ' + self.ten_tai_san
+    ten_hien_thi = 'id :' + str(self.id) + '---'+ 'name: ' + self.ten_tai_san
     return ten_hien_thi
  
 
