@@ -141,22 +141,33 @@ class Inspect(View):
   def post(self, request):
     
     update_infor = request.POST
-    # print(update_infor)
     assets = update_infor.getlist('id')
     states = update_infor.getlist('state')
-    print(assets)
-    print(states)
+    
+    success_item = 0
+    failed_item = 0
+    error_list = []
     for (id, state) in zip(assets, states):
-      id = int(id)    
-      asset = TaiSan.objects.get(pk = id)
-      asset.hien_trang = state
-      asset.save()
+      id = int(id)
+      try:    
+        asset = TaiSan.objects.get(pk = id)
+        success_item +=1
+      except:
+        asset = None
+        failed_item += 1
+        error_list.append(id)
+        # pass
+      if asset:
+        asset.hien_trang = state
+        asset.save()
     context = {
       'url_name' : '/kiemke',
-      'title' : 'Lưu dữ liệu thành công'
+      'title' : 'Lưu dữ liệu thành công',
+      'sucess' : success_item,
+      'fail' : failed_item,
+      'error_list': error_list
     }
-    return render(request, 'quanlitaisan/sucess_view.html', context)
-
+    return render(request, 'quanlitaisan/update_sucess.html', context)
 
 def test(request):
   print('test is called')

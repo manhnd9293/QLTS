@@ -2,6 +2,8 @@
 {% block title %} Lưu thành công {% endblock %}
 {% block content %}
   <div id="save_respone"> 
+    {% block extra_content %}
+    {% endblock %}
     <h2> Đã lưu vào cơ sở dữ liệu. Bạn có muốn tiếp tục ? </h2>
     <div id= "links">
       <a id="back" href="/"> Quay lại trang chủ </a>
@@ -9,3 +11,4 @@
     </div>
   </div>
 {% endblock %}
+
