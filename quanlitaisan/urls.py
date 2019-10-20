@@ -16,4 +16,5 @@ urlpatterns = [
   path('kiemke', views.Inspect.as_view(), name = 'kiemke'),
   path('api/<str:asset_id>', api.json_detail, name = 'json_details'),
   path('api/export/', api.FileExport.csv_export, name = 'csv'),
+  # path('test', views.test, name= 'test'),
 ]

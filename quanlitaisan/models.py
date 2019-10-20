@@ -26,9 +26,7 @@ class TaiSan(models.Model):
     ten_hien_thi = 'id :' + str(self.id) + '---'+ 'name: ' + self.ten_tai_san
     return ten_hien_thi
  
-
-
-
+ 
 class LichSuBaoTri(models.Model):
   ngay_bao_tri    = models.DateField('Ngày Bảo Trì')
   tai_san_bao_tri = models.ForeignKey(TaiSan, on_delete = models.CASCADE, verbose_name = 'Tài sản bảo trì')

@@ -50,26 +50,36 @@ from django.views import View
 
 class MyView(View):
   def get(self, request):
-    return render(request, 'quanlitaisan/base.html', {'title' : 'About us'})
+    return render(request, 'quanlitaisan/test.html', {'title' : 'About us'})
 
 class SearchView(View):
   def get(self, request):
     if request.GET:
-      print(request.GET)
-      q = TaiSan.objects.all()
-      id = request.GET.get('asset_id')
+      # print(request.GET)
+      user_criteria = request.GET
       
+      q = TaiSan.objects.all()
+      id = user_criteria.get('asset_id')
+      loai_ts = user_criteria.get('loai_tai_san')
+      ten_ts = user_criteria.get('ten_tai_san')  
+      from_date = user_criteria.get('from_date')
+      to_date = user_criteria.get('to_date')
+      hien_trang_sd = user_criteria.get('hien_trang')
       if id:
         q = q.filter(id = id)
-      loai_ts = request.GET.get('loai_tai_san')
-      
       if loai_ts:
         q = q.filter(loai_tai_san = loai_ts)
-      
-      ten_ts = request.GET.get('ten_tai_san')  
       if ten_ts:
         q = q.filter(ten_tai_san__icontains = ten_ts)
+      if from_date:
+        q = q.filter(ngay_su_dung__gte = from_date)
+      if to_date:
+        q = q.filter(ngay_su_dung__lte = to_date)
+      if hien_trang_sd:
+        q = q.filter(hien_trang = hien_trang_sd)
+
       FileExport.export_data = q
+
       return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
     else:
       return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
@@ -129,12 +139,22 @@ class Inspect(View):
     return render(request, 'quanlitaisan/kiemke.html',{'title': 'Kiểm kê'})
   
   def post(self, request):
+    
+    update_infor = request.POST
+    # print(update_infor)
+    assets = update_infor.getlist('id')
+    states = update_infor.getlist('state')
+    print(assets)
+    print(states)
+    for (id, state) in zip(assets, states):
+      id = int(id)    
+      asset = TaiSan.objects.get(pk = id)
+      asset.hien_trang = state
+      asset.save()
     context = {
       'url_name' : '/kiemke',
       'title' : 'Lưu dữ liệu thành công'
     }
-    infor = request.POST
-    print(infor)
     return render(request, 'quanlitaisan/sucess_view.html', context)
 
 

@@ -32,7 +32,7 @@
         <td class="name">Auto fill</td>  
         <td class="state">Auto fill</td>  
         <td class="update" name="state">
-          <select name="hien_trang">
+          <select name="state" required>
             <option value="" selected>---------</option>
             <option value="SD">Đang Sử dụng</option>
             <option value="BH">Bị hỏng</option></td>  
@@ -42,11 +42,15 @@
   <input type="submit" value="update">
 </form>
 <button id="add_line">Thêm dòng</button><br>
+<p>
+  <button id="exp">exp</button>
+</p>
 
 <script>
+  // number of item in list
   let no = 1;
-  
-  let getData = async function(e){
+  //////////////////////////////////////////////////////////////////
+  let checkInfor = async function(e){
     if(e.target.tagName === 'SELECT') return;
     let id = e.target.value;
     let url = '/api/' + id;
@@ -67,20 +71,48 @@
         data.textContent = 'Không tìm thấy';
       }
     }
-
   }
-  
+  let rows = document.querySelector('table');
+  rows.addEventListener('input', checkInfor);
+  ////////////////////////////////////////////////////////////////////
   let addButton = document.querySelector("#add_line");
   addButton.addEventListener('click', (e)=>{
     let clone = document.querySelector(".data").cloneNode(true);
     clone.querySelector('.no').textContent = String(++no);
     clone.querySelector('.id input').value = '';
-    clone.addEventListener('input', getData);
+    clone.addEventListener('input', checkInfor);
     document.querySelector('tbody').append(clone);
   });
-
-  let rows = document.querySelector('table');
-  rows.addEventListener('input', getData);
-  
+////////////////////////////////////////////////////////////////////////
+  let exp = document.querySelector('#exp')
+  exp.addEventListener('click', async ()=>{
+    let ids = [];
+    let states = [];
+    let idElems = document.querySelectorAll('.data .id input')
+    let selectElems = document.querySelectorAll('.data .update select')
+    
+    for(let idElement of idElems){
+      ids.push(idElement.value);
+    }
+    for(let selectElem of selectElems){
+      states.push(selectElem.value);
+    }
+    // console.log(ids)
+    // console.log(states)
+    let data = {assets : ids, states : states};
+    let serialData = JSON.stringify(data);
+    let url = '/kiemke';
+    let updateResponse = await fetch(url,{
+      method: 'POST',
+      body: serialData,
+      // headers: {
+      // 'Accept':'application/json',
+      // 'Content-Type': 'application/json'
+      // },
+      credentials: "same-origin"
+    });
+    let textUpdateResponse = await updateResponse.text();
+    // console.log(textUpdateResponse);
+  })
 </script>
 {% endblock %}

@@ -33,6 +33,10 @@
     <td>{{ obj.thoi_han_bao_hanh }}</td>
   </tr>
   <tr>
+    <td>Trạng thái:</td>
+    <td>{{ obj.get_hien_trang_display }}</td>
+  </tr>
+  <tr>
     <td>Tài sản cha</td>
     {%if obj.tai_san_cha %}
       <td><a href="{% url 'quanlitaisan:details'  obj.tai_san_cha.id  %}">{{obj.tai_san_cha.ten_tai_san}}</a></td>

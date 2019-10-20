@@ -5,7 +5,7 @@ import csv
 
 
 def json_detail(request, asset_id):
-  print('id = ' + str(asset_id))
+  # print('id = ' + str(asset_id))
   try:
     asset_id = int(asset_id)
     obj = TaiSan.objects.get(pk = asset_id)
