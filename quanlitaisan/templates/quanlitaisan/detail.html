@@ -33,6 +33,10 @@
     <td>{{ obj.thoi_han_bao_hanh }}</td>
   </tr>
   <tr>
+      <td>Địa điểm:</td>
+      <td>{{ obj.dia_diem }}</td>
+    </tr>
+  <tr>
     <td>Trạng thái:</td>
     <td>{{ obj.get_hien_trang_display }}</td>
   </tr>
@@ -83,16 +87,8 @@
 
 <div id="button_contain">
   <button id="edit">  Sửa thông tin</button>
-  <button id="delete"> Xóa tài sản </button>
-  <a href="{% url 'quanlitaisan:remove_asset' obj.id %}">Xóa tài sản</a>
-  <script>
-      let deleteButton = document.querySelector('#delete');
-      deleteButton.addEventListener('click',async function(){
-      url = "{% url 'quanlitaisan:remove_asset' obj.id %}";
-      console.log(url);
-      let response = await fetch(url);
-    });
-  </script>
+  <!-- <button id="delete"> Xóa tài sản </button> -->
+  <a href="{% url 'quanlitaisan:delete_view' obj.id %}">Xóa tài sản</a>
 </div>
   
 {% endblock %}

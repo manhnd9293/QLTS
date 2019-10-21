@@ -1,0 +1,13 @@
+{% extends "quanlitaisan/base.html" %}
+{% block title %} Xóa dữ liệu {% endblock %}
+{% block content %}
+  <div id="save_respone"> 
+    {% block extra_content %}
+    {% endblock %}
+    <h2>Bạn có chắc chắn muốn xóa tài sản này </h2>
+    <div id= "links">
+      <a id='back' href="javascript:history.back()">Quay lại</a>
+      <a id="continue" href="{% url 'quanlitaisan:remove_asset' asset_id %}" >Đồng ý </a>  
+    </div>
+  </div>
+{% endblock %}

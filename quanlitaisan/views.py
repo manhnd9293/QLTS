@@ -169,6 +169,10 @@ class Inspect(View):
     }
     return render(request, 'quanlitaisan/update_sucess.html', context)
 
+def delete(request, asset_id):
+  return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id})
+
 def test(request):
   print('test is called')
   return HttpResponse('done test')
+

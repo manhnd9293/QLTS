@@ -11,10 +11,14 @@ def json_detail(request, asset_id):
     obj = TaiSan.objects.get(pk = asset_id)
   except:
     obj = None
+  
   if obj:
     obj_dict = obj.__dict__.copy()
     obj_dict.pop('_state')
     obj_dict.pop('ngay_su_dung')
+    obj_dict['hien_trang'] = obj.get_hien_trang_display()
+    obj_dict['loai_tai_san'] = obj.get_loai_tai_san_display()
+    print(obj_dict)
     res = json.dumps(obj_dict)
   else:
     res = json.dumps(None)
