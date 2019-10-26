@@ -1,0 +1,18 @@
+{% extends 'quanlitaisan/base.html' %}
+{% block content %}
+<div id = 'signin'>
+  <h2>Đăng nhập</h2>
+  <form action="." method="POST">
+      {% csrf_token %}
+      <p>
+        <label for="username">User</label>
+        <input type="text" name="username" id ='username' >
+      </p>
+      <p>
+        <label for="username">Password</label>
+        <input type="password" name="password" id="password" >
+      </p>
+    <input type="submit">
+  </form>
+</div>
+{% endblock %}

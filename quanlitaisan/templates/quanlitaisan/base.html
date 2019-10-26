@@ -30,11 +30,73 @@
             <a href="/addItem">Thêm tài sản</a>
             <a href="/addMaintain">Thêm bảo trì</a>
             <a href="/kiemke">Kiểm kê</a>
+            {%if user.is_authenticated %}
+            <a href="/signout">Đăng xuất</a>
+            {% endif %}
+            
         </nav>
-      <section class="page-body">
-          {% block content %}
-    
-          {% endblock content %}
+        <section class="page-body">
+          {%if user.is_authenticated %}
+            {% block content %}
+              <h1>Phần mềm Quản lý tài sản</h1>
+              <!-- <p>Hello {{ user }}</p> -->
+              <p>{{ something }}</p>
+              <h3>Tài sản gần thêm gần đây</h3>
+            
+              <table class="recent">
+                <tr>
+                  <th>Mã tài sản</th>
+                  <th>Loại tài sản</th>
+                  <th>Tên tài sản</th>
+                  <th>Ngày bắt đầu sử dụng</th>
+                  <th>Số năm sử dụng</th>
+                </tr>
+                {% for item in assets %}
+                  <tr>
+                    <td>{{ item.id }}</td>
+                    <td> {{ item.get_loai_tai_san_display }} </td>
+                    <td><a href="{% url 'quanlitaisan:details' item.id %}"> {{ item.ten_tai_san }}</a></td>
+                    <td class="start_date">{{ item.ngay_su_dung }}</td>
+                    <td class="year">{{ item.thoi_gian_sd  }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+
+              <h3>Bảo trì gần đây</h3>
+            
+              <table class="recent">
+                <tr>
+                  <th>Ngày bảo trì</th>
+                  <th>Tài sản bảo trì</th>
+                  <th>Tiêu đề</th>
+                </tr>
+                {% for entry in maintains %}
+                <tr>
+                    <td>{{ entry.ngay_bao_tri }}</td>
+                    <td><a href="{% url 'quanlitaisan:details' entry.tai_san_bao_tri.id %}">{{ entry.tai_san_bao_tri.ten_tai_san }}</a></td>
+                    <td><a href="{% url 'quanlitaisan:maintains' entry.id %}">{{ entry.tieu_de}}</a></td>
+                </tr>
+                {% endfor %}
+              </table>
+              {% endblock content %}
+            {% else %}
+            <div id = 'signin'>
+                <h2>Đăng nhập</h2>
+                <form action="/signin" method="POST">
+                    {% csrf_token %}
+                    {{ error_mess }}
+                    <p>
+                      <label for="username">User</label>
+                      <input type="text" name="username" id ='username' >
+                    </p>
+                    <p>
+                      <label for="username">Password</label>
+                      <input type="password" name="password" id="password" >
+                    </p>
+                  <input type="submit" name="Đăng nhập" placeholder="Đăng nhập">
+                </form>
+              </div>
+            {% endif %}
       </section>
       
       <footer class="page-footer">

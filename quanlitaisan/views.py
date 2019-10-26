@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import FormTaiSan, FormBaoTri, FormTimKiemTaiSan
 from .models import TaiSan, LichSuBaoTri
 from django.core.paginator import Paginator
 from .api import FileExport
+from django.contrib.auth import authenticate, login, logout
 
 
 def index(req):
@@ -13,11 +14,11 @@ def index(req):
   maintains = LichSuBaoTri.objects.all()
   if maintains.count() > 5:
     maintains = reversed(maintains[(len(maintains)-5):])
-  print(maintains)
-  return render(req, 'quanlitaisan/index.html', {'assets': assets,'maintains' : maintains})
+  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'something': 'tets text'})
 
 def details(req, asset_id):
-  obj = TaiSan.objects.get(pk = asset_id)
+  # obj = TaiSan.objects.get(pk = asset_id)
+  obj = get_object_or_404(TaiSan, pk = asset_id)
   child_assets = TaiSan.objects.filter(tai_san_cha  = asset_id)
   history = obj.lichsubaotri_set.all()
   context = {'obj' : obj, 'title': 'Chi tiết','child' : child_assets, 'history' : history}
@@ -176,3 +177,21 @@ def test(request):
   print('test is called')
   return HttpResponse('done test')
 
+class SignIn(View):
+  def get(self, request):
+    return render(request, 'quanlitaisan/signin.html',{})
+  
+  def post(self, request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username = username, password = password)
+    if user is not None:
+      login(request, user)
+      return redirect('/')
+    else:
+      return render(request, 'quanlitaisan/base.html', 
+      {'error_mess': 'Sai thông tin người dùng hoặc mật khẩu. Vui lòng nhập lại'})
+
+def signout(request):
+  logout(request)
+  return redirect('/')
