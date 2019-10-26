@@ -16,6 +16,9 @@
   th, td{
     padding: 10px;
   }
+  /* #raw_row{
+    display: none;
+  } */
 </style>
 {% endblock %}
 {% block content %}
@@ -30,7 +33,7 @@
       <th>Hiện trạng theo dõi</th>
       <th>Hiện trạng kiểm kê</th>
     </tr>
-      <tr class="data">
+      <tr class="data" id = 'raw_row'>
         <td class="no">1</td>
         <td class="id"><input type="text" required name="id"></td>  
         <td class="type">Auto fill</td>  

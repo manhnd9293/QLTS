@@ -14,7 +14,7 @@ def index(req):
   maintains = LichSuBaoTri.objects.all()
   if maintains.count() > 5:
     maintains = reversed(maintains[(len(maintains)-5):])
-  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'something': 'tets text'})
+  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'title': 'Trang chủ'})
 
 def details(req, asset_id):
   # obj = TaiSan.objects.get(pk = asset_id)

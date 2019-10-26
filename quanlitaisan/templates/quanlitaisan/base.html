@@ -84,16 +84,16 @@
                 <h2>Đăng nhập</h2>
                 <form action="/signin" method="POST">
                     {% csrf_token %}
-                    {{ error_mess }}
+                    <span style="color : red">{{ error_mess }} </span>
                     <p>
-                      <label for="username">User</label>
+                      <label for="username">Người dùng</label>
                       <input type="text" name="username" id ='username' >
                     </p>
                     <p>
-                      <label for="username">Password</label>
+                      <label for="username">Mật khẩu</label>
                       <input type="password" name="password" id="password" >
                     </p>
-                  <input type="submit" name="Đăng nhập" placeholder="Đăng nhập">
+                  <input type="submit" name="Đăng nhập" placeholder="Đăng nhập" value="Đăng nhập">
                 </form>
               </div>
             {% endif %}

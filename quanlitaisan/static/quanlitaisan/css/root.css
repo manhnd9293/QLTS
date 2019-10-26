@@ -187,3 +187,7 @@ label{
 form input {
   line-height: 20px;
 }
+
+form select {
+  height: 22px;
+}
