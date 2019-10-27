@@ -86,14 +86,14 @@
                     {% csrf_token %}
                     {{ error_mess }}
                     <p>
-                      <label for="username">User</label>
+                      <label for="username">Người dùng</label>
                       <input type="text" name="username" id ='username' >
                     </p>
                     <p>
-                      <label for="username">Password</label>
+                      <label for="password">Mật khẩu</label>
                       <input type="password" name="password" id="password" >
                     </p>
-                  <input type="submit" name="Đăng nhập" placeholder="Đăng nhập">
+                  <input type="submit" name="Đăng nhập" placeholder="Đăng nhập" value="Đăng nhập">
                 </form>
               </div>
             {% endif %}
