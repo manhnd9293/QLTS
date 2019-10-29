@@ -1,20 +1,28 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import FormTaiSan, FormBaoTri, FormTimKiemTaiSan
-from .models import TaiSan, LichSuBaoTri
+from .models import TaiSan, LichSuBaoTri, NhanVien
 from django.core.paginator import Paginator
 from .api import FileExport
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
-
+@login_required
 def index(req):
+  # user = req.user
+  # if user.is_authenticated:
+  #   nhan_vien = list(NhanVien.objects.filter(user = user))[0]
+  #   id = nhan_vien.id
+  #   ho_ten = nhan_vien.name
+
   assets = TaiSan.objects.all()
   if assets.count() > 5: 
     assets = reversed(assets[(len(assets)-5):])
   maintains = LichSuBaoTri.objects.all()
   if maintains.count() > 5:
     maintains = reversed(maintains[(len(maintains)-5):])
-  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'something': 'tets text'})
+  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains})
 
 def details(req, asset_id):
   # obj = TaiSan.objects.get(pk = asset_id)
@@ -22,6 +30,7 @@ def details(req, asset_id):
   child_assets = TaiSan.objects.filter(tai_san_cha  = asset_id)
   history = obj.lichsubaotri_set.all()
   context = {'obj' : obj, 'title': 'Chi tiết','child' : child_assets, 'history' : history}
+  print(req.url)
   return render(req, 'quanlitaisan/detail.html', context)
 
 def maintains(request, maintain_id):
@@ -30,7 +39,7 @@ def maintains(request, maintain_id):
 
 def assets_list(request, page):
   #add a comment
-  assets_all = TaiSan.objects.all()
+  assets_all = TaiSan.objects.filter()
   paginator = Paginator(assets_all, 25)
   title = 'Danh sách tài sản'
   assets = paginator.get_page(page)
@@ -44,8 +53,6 @@ def remove_asset(request, asset_id):
         'title' :'Xóa thành công'
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
-
-
 
 from django.views import View
 
@@ -187,7 +194,7 @@ class SignIn(View):
     user = authenticate(request, username = username, password = password)
     if user is not None:
       login(request, user)
-      return redirect('/')
+      return redirect(request.GET['next'])
     else:
       return render(request, 'quanlitaisan/base.html', 
       {'error_mess': 'Sai thông tin người dùng hoặc mật khẩu. Vui lòng nhập lại'})

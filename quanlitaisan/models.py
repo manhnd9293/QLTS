@@ -1,6 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+
+class NhanVien(models.Model):
+  DEFAULT_NV_ID = 7
+  user =  models.OneToOneField(User, on_delete= models.CASCADE)
+  name  =  models.CharField('Họ và tên', max_length = 40)
+
+  def __str__(self):
+    return str(self.id) + "---" + self.name
 
 class TaiSan(models.Model):
   LOAI_TAI_SAN = [
@@ -21,7 +30,8 @@ class TaiSan(models.Model):
   tai_san_cha        = models.ForeignKey('self', on_delete = models.SET_NULL, null = True, blank = True,verbose_name = 'Thiết bị chứa')
   dia_diem           = models.CharField('Địa điểm', max_length = 20)
   hien_trang         = models.CharField('Hiện trạng', max_length = 2, choices = HIEN_TRANG)
-  
+  quan_ly            = models.ForeignKey(NhanVien, on_delete = models.SET_DEFAULT, default = NhanVien.DEFAULT_NV_ID)
+
   def __str__(self):
     ten_hien_thi = 'id :' + str(self.id) + '---'+ 'name: ' + self.ten_tai_san
     return ten_hien_thi

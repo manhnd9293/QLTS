@@ -17,7 +17,7 @@ urlpatterns = [
   path('api/<str:asset_id>', api.json_detail, name = 'json_details'),
   path('api/export/', api.FileExport.csv_export, name = 'csv'),
   path('delete/<int:asset_id>', views.delete, name = 'delete_view'),
-  path('signin', views.SignIn.as_view(), name = 'signin_view'),
   path('signout', views.signout, name = 'signout_view'),
+  path('accounts/login/', views.SignIn.as_view())
   # path('test', views.test, name= 'test'),
 ]
