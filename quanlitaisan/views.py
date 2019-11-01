@@ -8,43 +8,53 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
+def get_infor_by_user(request):
+  user = request.user
+  employee = list(NhanVien.objects.filter(user = user))[0]
+  assets = TaiSan.objects.filter(quan_ly = employee)
+  return {'assets' : assets, 'employee' : employee}
+
 @login_required
 def index(req):
-  # user = req.user
-  # if user.is_authenticated:
-  #   nhan_vien = list(NhanVien.objects.filter(user = user))[0]
-  #   id = nhan_vien.id
-  #   ho_ten = nhan_vien.name
-
-  assets = TaiSan.objects.all()
+  infor = get_infor_by_user(req)
+  assets = infor['assets']
+  employee = infor['employee']
   if assets.count() > 5: 
     assets = reversed(assets[(len(assets)-5):])
-  maintains = LichSuBaoTri.objects.all()
+  maintains = LichSuBaoTri.objects.filter(tai_san_bao_tri__quan_ly = employee)
   if maintains.count() > 5:
     maintains = reversed(maintains[(len(maintains)-5):])
   return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains})
 
+@login_required
 def details(req, asset_id):
   # obj = TaiSan.objects.get(pk = asset_id)
   obj = get_object_or_404(TaiSan, pk = asset_id)
   child_assets = TaiSan.objects.filter(tai_san_cha  = asset_id)
   history = obj.lichsubaotri_set.all()
   context = {'obj' : obj, 'title': 'Chi tiết','child' : child_assets, 'history' : history}
-  print(req.url)
   return render(req, 'quanlitaisan/detail.html', context)
 
+@login_required
 def maintains(request, maintain_id):
   obj = LichSuBaoTri.objects.get(pk = maintain_id)
   return render(request, 'quanlitaisan/maintain_details.html',{'obj': obj, 'title': 'Chi tiết bảo trì'})
 
+@login_required
 def assets_list(request, page):
   #add a comment
-  assets_all = TaiSan.objects.filter()
-  paginator = Paginator(assets_all, 25)
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
+  if employee.user.is_superuser:
+    assets = TaiSan.objects.filter()
+  
+  paginator = Paginator(assets, 25)
   title = 'Danh sách tài sản'
   assets = paginator.get_page(page)
   return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title})
 
+@login_required
 def remove_asset(request, asset_id):
   obj = TaiSan.objects.get(pk = asset_id)
   obj.delete() 
@@ -54,60 +64,54 @@ def remove_asset(request, asset_id):
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
 
-from django.views import View
-
-class MyView(View):
-  def get(self, request):
-    return render(request, 'quanlitaisan/test.html', {'title' : 'About us'})
-
-class SearchView(View):
-  def get(self, request):
-    if request.GET:
-      # print(request.GET)
-      user_criteria = request.GET
-      
-      q = TaiSan.objects.all()
-      id = user_criteria.get('asset_id')
-      loai_ts = user_criteria.get('loai_tai_san')
-      ten_ts = user_criteria.get('ten_tai_san')  
-      from_date = user_criteria.get('from_date')
-      to_date = user_criteria.get('to_date')
-      hien_trang_sd = user_criteria.get('hien_trang')
-      if id:
-        q = q.filter(id = id)
-      if loai_ts:
-        q = q.filter(loai_tai_san = loai_ts)
-      if ten_ts:
-        q = q.filter(ten_tai_san__icontains = ten_ts)
-      if from_date:
-        q = q.filter(ngay_su_dung__gte = from_date)
-      if to_date:
-        q = q.filter(ngay_su_dung__lte = to_date)
-      if hien_trang_sd:
-        q = q.filter(hien_trang = hien_trang_sd)
-
-      FileExport.export_data = q
-
-      return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
-    else:
-      return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
-
-
-class AddAssetView(View):
-  form_class = FormTaiSan
-  template_name = 'quanlitaisan/addItem.html'
+@login_required
+def search_items(request):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
   
-  def get(self, request):
-    form = self.form_class()
+  if request.GET:
+    user_criteria = request.GET
+    if request.user.is_superuser:
+      q = TaiSan.objects.all()
+    else:
+      q = assets
+    id = user_criteria.get('asset_id')
+    loai_ts = user_criteria.get('loai_tai_san')
+    ten_ts = user_criteria.get('ten_tai_san')  
+    from_date = user_criteria.get('from_date')
+    to_date = user_criteria.get('to_date')
+    hien_trang_sd = user_criteria.get('hien_trang')
+    if id:
+      q = q.filter(id = id)
+    if loai_ts:
+      q = q.filter(loai_tai_san = loai_ts)
+    if ten_ts:
+      q = q.filter(ten_tai_san__icontains = ten_ts)
+    if from_date:
+      q = q.filter(ngay_su_dung__gte = from_date)
+    if to_date:
+      q = q.filter(ngay_su_dung__lte = to_date)
+    if hien_trang_sd:
+      q = q.filter(hien_trang = hien_trang_sd)
+
+    FileExport.export_data = q
+
+    return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
+  else:
+    return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
+
+@login_required
+def add_asset(request):
+  if request.method == 'GET':
+    form = FormTaiSan
     context = {
         'title' : 'Thêm tài sản',
         'form' : form
     }
-    return render(request, self.template_name, context)
-  
-  def post(self, request):
-    form = self.form_class(request.POST)
-    print(request.POST)
+    return render(request, 'quanlitaisan/addItem.html', context)
+  else:
+    form = FormTaiSan(request.POST)
     if form.is_valid():
       user_data = form.cleaned_data
       new_item = TaiSan(**user_data)
@@ -117,17 +121,16 @@ class AddAssetView(View):
         'title' : 'Lưu tài sản thành công'
       }
       return render(request, 'quanlitaisan/sucess_view.html', context)
-    return render(request, self.template_name, {'title': 'Invalid input', 'form' : form})
+    return render(request, 'quanlitaisan/addItem.html', {'title': 'Invalid input', 'form' : form})
 
-class AddMaintain(View):
-  form_class = FormBaoTri
-  template_name = 'quanlitaisan/addMaintain.html'
-  
-  def get(self, request):
-    form = self.form_class()
-    return render(request, self.template_name , {'form': form, 'title': 'Thêm bảo trì'})
+@login_required
+def add_maintain(request):
 
-  def post(self, request):
+  if request.method == 'GET':
+    form = FormBaoTri
+    return render(request, 'quanlitaisan/addMaintain.html', {'form': form, 'title': 'Thêm bảo trì'})
+
+  else:
     form = FormBaoTri(request.POST)
     if form.is_valid():
       user_data = form.cleaned_data
@@ -140,14 +143,15 @@ class AddMaintain(View):
       }
       return render(request, 'quanlitaisan/sucess_view.html', context)
     else:
-      return render(request, self.template_name, {'form': form, 'title': 'Invalid input'})
+      return render(request, 'quanlitaisan/addMaintain.html', {'form': form, 'title': 'Invalid input'})
 
-class Inspect(View):
-  def get(self, request):
+@login_required
+def inspect(request):
+
+  if request.method == 'GET':
     return render(request, 'quanlitaisan/kiemke.html',{'title': 'Kiểm kê'})
   
-  def post(self, request):
-    
+  else:    
     update_infor = request.POST
     assets = update_infor.getlist('id')
     states = update_infor.getlist('state')
@@ -177,6 +181,7 @@ class Inspect(View):
     }
     return render(request, 'quanlitaisan/update_sucess.html', context)
 
+@login_required
 def delete(request, asset_id):
   return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id})
 
@@ -184,21 +189,23 @@ def test(request):
   print('test is called')
   return HttpResponse('done test')
 
-class SignIn(View):
-  def get(self, request):
+next_url = ''
+def sign_in(request):
+  if request.method == 'GET':
+    next_url =  request.GET['next']
     return render(request, 'quanlitaisan/signin.html',{})
-  
-  def post(self, request):
+  else:
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username = username, password = password)
     if user is not None:
       login(request, user)
-      return redirect(request.GET['next'])
+      return redirect(next_url)
     else:
       return render(request, 'quanlitaisan/base.html', 
       {'error_mess': 'Sai thông tin người dùng hoặc mật khẩu. Vui lòng nhập lại'})
 
 def signout(request):
+
   logout(request)
   return redirect('/')

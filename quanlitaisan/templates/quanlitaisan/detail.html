@@ -41,6 +41,10 @@
     <td>{{ obj.get_hien_trang_display }}</td>
   </tr>
   <tr>
+    <td>Người quản lý</td>
+    <td>{{ obj.quan_ly.name }}</td>
+  </tr>
+  <tr>
     <td>Tài sản cha</td>
     {%if obj.tai_san_cha %}
       <td><a href="{% url 'quanlitaisan:details'  obj.tai_san_cha.id  %}">{{obj.tai_san_cha.ten_tai_san}}</a></td>
