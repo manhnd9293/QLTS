@@ -2,7 +2,7 @@
 {% block content %}
 <div id = 'signin'>
   <h2>Đăng nhập</h2>
-  <form action="." method="POST">
+  <form action='.' method="POST">
       {% csrf_token %}
       <p>
         <label for="username">User</label>
@@ -15,4 +15,8 @@
     <input type="submit" value = 'Đăng nhập'>
   </form>
 </div>
+<script>
+  let submitLink = window.location.href;
+  document.querySelector('form').action  = submitLink;
+</script>
 {% endblock %}

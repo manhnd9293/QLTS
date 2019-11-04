@@ -2,13 +2,18 @@ from .models import TaiSan
 from django.http import JsonResponse, HttpResponse
 import json
 import csv
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def json_detail(request, asset_id):
   # print('id = ' + str(asset_id))
   try:
     asset_id = int(asset_id)
-    obj = TaiSan.objects.get(pk = asset_id)
+    if request.user.is_superuser:
+      obj = TaiSan.objexts.filter(pk = asset_id)
+    else:  
+      obj = TaiSan.objects.filter(quan_ly__user = request.user,pk = asset_id)
+    obj = list(obj)[0]
   except:
     obj = None
   
@@ -24,6 +29,7 @@ def json_detail(request, asset_id):
     res = json.dumps(None)
   return HttpResponse(res)
 
+@login_required
 class FileExport():
   
   export_data = None

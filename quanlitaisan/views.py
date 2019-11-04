@@ -189,7 +189,18 @@ def test(request):
   print('test is called')
   return HttpResponse('done test')
 
-next_url = ''
+@login_required
+def update_asset(request, asset_id):
+  if request.method == 'GET':
+    asset = TaiSan.objects.get(pk = asset_id)
+    form = FormTaiSan(instance= asset)
+    return render(request, 'quanlitaisan/update_form.html', {'form': form, 'title': 'Cập nhật thông tin'})
+  else:
+    asset = TaiSan.objects.get(pk = asset_id)
+    update_infor = FormTaiSan(request.POST, instance = asset)
+    update_infor.save()
+    return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/search'})
+    
 def sign_in(request):
   if request.method == 'GET':
     next_url =  request.GET['next']
@@ -200,12 +211,11 @@ def sign_in(request):
     user = authenticate(request, username = username, password = password)
     if user is not None:
       login(request, user)
-      return redirect(next_url)
+      return redirect('/')
     else:
       return render(request, 'quanlitaisan/base.html', 
       {'error_mess': 'Sai thông tin người dùng hoặc mật khẩu. Vui lòng nhập lại'})
 
 def signout(request):
-
   logout(request)
   return redirect('/')

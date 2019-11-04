@@ -17,6 +17,7 @@ urlpatterns = [
   path('api/export/', api.FileExport.csv_export, name = 'csv'),
   path('delete/<int:asset_id>', views.delete, name = 'delete_view'),
   path('signout', views.signout, name = 'signout_view'),
-  path('accounts/login/', views.sign_in, name = 'sign_in_view')
+  path('accounts/login/', views.sign_in, name = 'sign_in_view'),
+  path('assets/update/<int:asset_id>', views.update_asset, name = 'update')
   # path('test', views.test, name= 'test'),
 ]
