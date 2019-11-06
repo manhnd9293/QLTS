@@ -24,21 +24,24 @@ def index(req):
   maintains = LichSuBaoTri.objects.filter(tai_san_bao_tri__quan_ly = employee)
   if maintains.count() > 5:
     maintains = reversed(maintains[(len(maintains)-5):])
-  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains})
+  return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'title': 'Trang chủ', 'name': employee.name})
 
 @login_required
 def details(req, asset_id):
   # obj = TaiSan.objects.get(pk = asset_id)
+  infor = get_infor_by_user(req)
+  assets = infor['assets']
+  employee = infor['employee']
   obj = get_object_or_404(TaiSan, pk = asset_id)
   child_assets = TaiSan.objects.filter(tai_san_cha  = asset_id)
   history = obj.lichsubaotri_set.all()
-  context = {'obj' : obj, 'title': 'Chi tiết','child' : child_assets, 'history' : history}
+  context = {'obj' : obj, 'title': 'Chi tiết','child' : child_assets, 'history' : history, 'name' : employee.name}
   return render(req, 'quanlitaisan/detail.html', context)
 
 @login_required
 def maintains(request, maintain_id):
   obj = LichSuBaoTri.objects.get(pk = maintain_id)
-  return render(request, 'quanlitaisan/maintain_details.html',{'obj': obj, 'title': 'Chi tiết bảo trì'})
+  return render(request, 'quanlitaisan/maintain_details.html',{'obj': obj, 'title': 'Chi tiết bảo trì','name' : employee.name})
 
 @login_required
 def assets_list(request, page):
@@ -52,15 +55,21 @@ def assets_list(request, page):
   paginator = Paginator(assets, 25)
   title = 'Danh sách tài sản'
   assets = paginator.get_page(page)
-  return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title})
+  return render(request, 'quanlitaisan/assets_list.html',{'assets': assets, 'title': title, 'name': employee.name})
 
 @login_required
 def remove_asset(request, asset_id):
+  if not request.user.is_superuser:
+    return HttpResponse('Access denied')
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
   obj = TaiSan.objects.get(pk = asset_id)
   obj.delete() 
   context = {
         'url_name' : '/assets/1',
-        'title' :'Xóa thành công'
+        'title' :'Xóa thành công',
+        'name' : employee.name
       }
   return render(request, 'quanlitaisan/sucess_view.html', context)
 
@@ -97,17 +106,21 @@ def search_items(request):
 
     FileExport.export_data = q
 
-    return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm'})
+    return render(request, 'quanlitaisan/resultpage.html', {'obj': q, 'title': 'Kết quả tìm kiếm', 'name': employee.name})
   else:
-    return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản'})
+    return render(request, 'quanlitaisan/search.html', { 'title': 'Tìm kiếm tài sản', 'name': employee.name})
 
 @login_required
 def add_asset(request):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
   if request.method == 'GET':
     form = FormTaiSan
     context = {
         'title' : 'Thêm tài sản',
-        'form' : form
+        'form' : form,
+        'name' : employee.name
     }
     return render(request, 'quanlitaisan/addItem.html', context)
   else:
@@ -118,17 +131,21 @@ def add_asset(request):
       new_item.save()
       context = {
         'url_name' : '/addItem',
-        'title' : 'Lưu tài sản thành công'
+        'title' : 'Lưu tài sản thành công',
+        'name' : employee.name
       }
       return render(request, 'quanlitaisan/sucess_view.html', context)
     return render(request, 'quanlitaisan/addItem.html', {'title': 'Invalid input', 'form' : form})
 
 @login_required
 def add_maintain(request):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
 
   if request.method == 'GET':
     form = FormBaoTri
-    return render(request, 'quanlitaisan/addMaintain.html', {'form': form, 'title': 'Thêm bảo trì'})
+    return render(request, 'quanlitaisan/addMaintain.html', {'form': form, 'title': 'Thêm bảo trì','name' : employee.name})
 
   else:
     form = FormBaoTri(request.POST)
@@ -139,7 +156,8 @@ def add_maintain(request):
 
       context = {
         'url_name' : '/addMaintain',
-        'title': 'Thêm thành công'
+        'title': 'Thêm thành công',
+        'name' : employee.name
       }
       return render(request, 'quanlitaisan/sucess_view.html', context)
     else:
@@ -147,9 +165,11 @@ def add_maintain(request):
 
 @login_required
 def inspect(request):
-
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
   if request.method == 'GET':
-    return render(request, 'quanlitaisan/kiemke.html',{'title': 'Kiểm kê'})
+    return render(request, 'quanlitaisan/kiemke.html',{'title': 'Kiểm kê','name' : employee.name})
   
   else:    
     update_infor = request.POST
@@ -183,6 +203,8 @@ def inspect(request):
 
 @login_required
 def delete(request, asset_id):
+  if not request.user.is_superuser:
+    return HttpResponse('Access denied')
   return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id})
 
 def test(request):
@@ -191,6 +213,12 @@ def test(request):
 
 @login_required
 def update_asset(request, asset_id):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
+  if not request.user.is_superuser:
+    return HttpResponse('Access denied')
+
   if request.method == 'GET':
     asset = TaiSan.objects.get(pk = asset_id)
     form = FormTaiSan(instance= asset)
@@ -200,11 +228,11 @@ def update_asset(request, asset_id):
     update_infor = FormTaiSan(request.POST, instance = asset)
     update_infor.save()
     return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/search'})
-    
+      
 def sign_in(request):
   if request.method == 'GET':
     next_url =  request.GET['next']
-    return render(request, 'quanlitaisan/signin.html',{})
+    return render(request, 'quanlitaisan/signin.html', {'title': 'Đăng nhập'})
   else:
     username = request.POST['username']
     password = request.POST['password']

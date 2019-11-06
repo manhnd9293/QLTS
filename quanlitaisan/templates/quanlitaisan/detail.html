@@ -88,13 +88,13 @@
 {% else %}
 <p>None</p>
 {% endif %}
-
-<div id="button_contain">
-  <button id="edit">  Sửa thông tin</button>
-  <!-- <button id="delete"> Xóa tài sản </button> -->
+{% if user.is_superuser %}
+<div class="ud">
+    <a href="{% url 'quanlitaisan:update' obj.id %}">Sửa thông tin tài sản</a> <br>
+  </div>
   
-  <a href="{% url 'quanlitaisan:update' obj.id %}">Sửa thông tin tài sản</a> <br>
-  <a href="{% url 'quanlitaisan:delete_view' obj.id %}">Xóa tài sản</a>
-</div>
-  
+  <div class="ud">
+    <a href="{% url 'quanlitaisan:delete_view' obj.id %}">Xóa tài sản</a>
+  </div>
+{% endif %}
 {% endblock %}
