@@ -12,18 +12,26 @@ def get_infor_by_user(request):
   user = request.user
   employee = list(NhanVien.objects.filter(user = user))[0]
   assets = TaiSan.objects.filter(quan_ly = employee)
-  return {'assets' : assets, 'employee' : employee}
+  maintains = LichSuBaoTri.objects.filter(tai_san_bao_tri__quan_ly = employee)
+  return {'assets' : assets, 'employee' : employee, 'maintains': maintains}
 
 @login_required
 def index(req):
-  infor = get_infor_by_user(req)
-  assets = infor['assets']
-  employee = infor['employee']
+  if req.user.is_superuser:
+    assets = TaiSan.objects.all()
+    maintains = LichSuBaoTri.objects.all()
+    employee = list(NhanVien.objects.filter(user = req.user))[0]
+  else:
+    infor = get_infor_by_user(req)
+    assets = infor['assets']
+    maintains = infor['maintains']
+    employee = infor['employee']
+
+  # get last 5 assets and maintain
   if assets.count() > 5: 
     assets = reversed(assets[(len(assets)-5):])
-  maintains = LichSuBaoTri.objects.filter(tai_san_bao_tri__quan_ly = employee)
   if maintains.count() > 5:
-    maintains = reversed(maintains[(len(maintains)-5):])
+    maintains = reversed(maintains[(len(maintains)-5):]) 
   return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'title': 'Trang chủ', 'name': employee.name})
 
 @login_required
@@ -203,9 +211,12 @@ def inspect(request):
 
 @login_required
 def delete(request, asset_id):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
   if not request.user.is_superuser:
     return HttpResponse('Access denied')
-  return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id})
+  return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id, 'name': employee.name})
 
 def test(request):
   print('test is called')

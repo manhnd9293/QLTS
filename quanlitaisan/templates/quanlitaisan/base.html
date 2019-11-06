@@ -34,7 +34,9 @@
             {% endif %}
         </nav>
         <section class="page-body">
+          {%if user.is_authenticated %}
           <p>Xin chào {{ name }}</p>
+          {% endif %}
             {% block content %}
               <h1>Phần mềm Quản lý tài sản</h1>
               <h3>Tài sản gần thêm gần đây</h3>

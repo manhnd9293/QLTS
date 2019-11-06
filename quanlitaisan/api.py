@@ -1,10 +1,10 @@
-from .models import TaiSan
+from .models import TaiSan, NhanVien
 from django.http import JsonResponse, HttpResponse
 import json
 import csv
 from django.contrib.auth.decorators import login_required
 
-@login_required
+# @login_required
 def json_detail(request, asset_id):
   # print('id = ' + str(asset_id))
   try:
@@ -29,7 +29,7 @@ def json_detail(request, asset_id):
     res = json.dumps(None)
   return HttpResponse(res)
 
-@login_required
+
 class FileExport():
   
   export_data = None

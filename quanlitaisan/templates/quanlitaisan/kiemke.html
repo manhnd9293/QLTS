@@ -69,6 +69,7 @@
     let url = '/api/' + id;
     let response = await fetch('/api/' + id);
     let json_res = await response.json();
+    console.log(json_res);
     
     let thisRow = e.target.parentNode.parentNode;
     let nameData = thisRow.querySelector('.name');
