@@ -1,0 +1,5 @@
+create database qlts;
+create user qlts;
+grant all on database qlts to "qlts";
+alter user qlts password '123123';
+alter user qlts createdb;

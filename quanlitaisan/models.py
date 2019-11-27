@@ -22,8 +22,18 @@ class TaiSan(models.Model):
     ('BH', 'Bị hỏng'),
   ]
   
+  DON_vI_TINH = [
+    ('C', 'Cái'),
+    ('Ch', 'Chiếc'),
+    ('T', 'Tập'),
+    ('KG', 'Kilogram'),
+    ('ML', 'ml')
+  ]
+
   loai_tai_san       = models.CharField('loại tài sản', max_length = 2, choices = LOAI_TAI_SAN)
   ten_tai_san        = models.CharField('tên tài sản', max_length = 20)
+  don_vi_tinh        = models.CharField('Đơn vị tính', max_length = 2, choices = DON_vI_TINH)
+  so_luong           = models.PositiveIntegerField('Số lượng')
   ngay_su_dung       = models.DateField('ngày bắt đầu sử dụng')
   thoi_han_bao_hanh  = models.PositiveIntegerField('số năm bảo hành')
   thoi_gian_sd       = models.PositiveIntegerField('số năm sử dụng')

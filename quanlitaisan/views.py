@@ -48,6 +48,9 @@ def details(req, asset_id):
 
 @login_required
 def maintains(request, maintain_id):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
   obj = LichSuBaoTri.objects.get(pk = maintain_id)
   return render(request, 'quanlitaisan/maintain_details.html',{'obj': obj, 'title': 'Chi tiết bảo trì','name' : employee.name})
 
@@ -252,9 +255,11 @@ def sign_in(request):
       login(request, user)
       return redirect('/')
     else:
-      return render(request, 'quanlitaisan/base.html', 
+      return render(request, 'quanlitaisan/signin.html', 
       {'error_mess': 'Sai thông tin người dùng hoặc mật khẩu. Vui lòng nhập lại'})
-
+ 
 def signout(request):
   logout(request)
   return redirect('/')
+
+  

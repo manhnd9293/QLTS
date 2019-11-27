@@ -10,11 +10,14 @@ def json_detail(request, asset_id):
   try:
     asset_id = int(asset_id)
     if request.user.is_superuser:
-      obj = TaiSan.objexts.filter(pk = asset_id)
+      obj = TaiSan.objects.filter(pk = asset_id)
+      print('got asset from db')
     else:  
       obj = TaiSan.objects.filter(quan_ly__user = request.user,pk = asset_id)
     obj = list(obj)[0]
-  except:
+  except Exception as e:
+    print('exception in get json')
+    print(e)
     obj = None
   
   if obj:

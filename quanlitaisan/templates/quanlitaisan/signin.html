@@ -1,9 +1,10 @@
 {% extends 'quanlitaisan/base.html' %}
 {% block content %}
 <div id = 'signin'>
-  <h2>Đăng nhập</h2>
+
   <form action='.' method="POST">
       {% csrf_token %}
+      {{error_mess}}
       <p>
         <label for="username">User</label>
         <input type="text" name="username" id ='username' >
