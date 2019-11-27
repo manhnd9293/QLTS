@@ -27,7 +27,8 @@ class TaiSan(models.Model):
     ('Ch', 'Chiếc'),
     ('T', 'Tập'),
     ('KG', 'Kilogram'),
-    ('ML', 'ml')
+    ('ML', 'ml'),
+    ('K', 'Khác')
   ]
 
   loai_tai_san       = models.CharField('loại tài sản', max_length = 2, choices = LOAI_TAI_SAN)
