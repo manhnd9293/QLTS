@@ -14,10 +14,12 @@ urlpatterns = [
   path('remove/<int:asset_id>', views.remove_asset, name = 'remove_asset'),
   path('kiemke', views.inspect, name = 'kiemke'),
   path('api/<str:asset_id>', api.json_detail, name = 'json_details'),
+  path('api/search/<str:sw>', api.search, name = 'json_search'),
   path('api/export/', api.FileExport.csv_export, name = 'csv'),
   path('delete/<int:asset_id>', views.delete, name = 'delete_view'),
   path('signout', views.signout, name = 'signout_view'),
   path('accounts/login/', views.sign_in, name = 'sign_in_view'),
-  path('assets/update/<int:asset_id>', views.update_asset, name = 'update')
+  path('assets/update/<int:asset_id>', views.update_asset, name = 'update'),
+  path('nhap/', views.nhap_hang, name = 'nhap_hang')
   # path('test', views.test, name= 'test'),
 ]

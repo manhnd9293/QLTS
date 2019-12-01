@@ -242,7 +242,11 @@ def update_asset(request, asset_id):
     update_infor = FormTaiSan(request.POST, instance = asset)
     update_infor.save()
     return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/search'})
-      
+
+@login_required      
+def nhap_hang(request):
+  return render(request, 'quanlitaisan/nhaphang.html', {'title': 'Nhập hàng'})
+
 def sign_in(request):
   if request.method == 'GET':
     next_url =  request.GET['next']

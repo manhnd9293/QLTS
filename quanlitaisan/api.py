@@ -4,7 +4,7 @@ import json
 import csv
 from django.contrib.auth.decorators import login_required
 
-# @login_required
+@login_required
 def json_detail(request, asset_id):
   # print('id = ' + str(asset_id))
   try:
@@ -28,8 +28,27 @@ def json_detail(request, asset_id):
     obj_dict['loai_tai_san'] = obj.get_loai_tai_san_display()
     print(obj_dict)
     res = json.dumps(obj_dict)
+    # print(res)
   else:
     res = json.dumps(None)
+  return HttpResponse(res)
+
+@login_required
+def search(request, sw):
+  obj_list = list(TaiSan.objects.filter(ten_tai_san__icontains = sw))
+  res = []
+  for obj in obj_list:
+    obj_dict = obj.__dict__.copy()
+    obj_dict.pop('_state')
+    obj_dict.pop('ngay_su_dung')
+    obj_dict['hien_trang'] = obj.get_hien_trang_display()
+    obj_dict['loai_tai_san'] = obj.get_loai_tai_san_display()
+    obj_dict['don_vi_tinh'] = obj.get_don_vi_tinh_display()
+    json_obj = json.dumps(obj_dict, ensure_ascii=False)
+    print(json_obj)
+    res.append(json_obj)
+  res = json.dumps(res, ensure_ascii=False)
+  # print(res)
   return HttpResponse(res)
 
 
