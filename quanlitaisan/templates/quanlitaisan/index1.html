@@ -1,0 +1,18 @@
+{% extends "quanlitaisan/base.html" %}
+{% block title %} Quản lí tài sản - Home page {% endblock %}
+{% block content %}
+  <h2>Tài sản</h2>
+    <ul>
+        <li><a href="/search">Tìm kiếm</a></li>
+        <li><a href="/addItem">Thêm tài sản</a></li>
+        <li><a href="/nhap">Cập nhật số lượng nhập</a></li>
+        <li><a href="/xuat">Cập nhật số lượng xuất</a></li>
+        <li><a href="/kiemke">Kiểm kê</a></li>
+    </ul>
+    <h2>Cá nhân</h2>
+    <ul>
+        <li><a href="">Xem thông tin cá nhân</a></li>
+        <li><a href="">Đổi mật khẩu</a></li>
+        <li><a href="/signout">Đăng xuất</a></li>
+    </ul>
+{% endblock %}

@@ -35,6 +35,10 @@ def index(req):
   return render(req, 'quanlitaisan/base.html', {'assets': assets,'maintains' : maintains, 'title': 'Trang chủ', 'name': employee.name})
 
 @login_required
+def index_update(request):
+  return render(request, 'quanlitaisan/index1.html')
+
+@login_required
 def details(req, asset_id):
   # obj = TaiSan.objects.get(pk = asset_id)
   infor = get_infor_by_user(req)

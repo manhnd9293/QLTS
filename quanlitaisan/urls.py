@@ -4,7 +4,8 @@ from . import views, api
 app_name = 'quanlitaisan'
 
 urlpatterns = [
-  path('', views.index, name = 'index'),
+  # path('', views.index, name = 'index'),
+  path('', views.index_update, name = 'index_update'),
   path('details/<int:asset_id>', views.details, name = 'details'),
   path('maintain/<int:maintain_id>', views.maintains, name = 'maintains'),
   path('search/', views.search_items, name = 'search'),
