@@ -1,0 +1,18 @@
+{% extends 'quanlitaisan/base.html' %}
+{% block content %}
+<table>
+    <tr>
+        <th>Họ và tên: </th>
+        <td>{{ emp.name }}</td>
+    </tr>
+    <tr>
+        <th>Chức vụ: </th>
+        <td>{{ emp.title }}</td>
+    </tr>
+    <tr>
+        <th>Phòng ban: </th>
+        <td>{{ emp.department }}</td>
+    </tr>
+</table>
+
+{% endblock %}

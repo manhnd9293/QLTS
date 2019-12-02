@@ -7,6 +7,9 @@ class NhanVien(models.Model):
   DEFAULT_NV_ID = 7
   user =  models.OneToOneField(User, on_delete= models.CASCADE)
   name  =  models.CharField('Họ và tên', max_length = 40)
+  # DOB   = models.DateField('Ngày tháng năm sinh')
+  title = models.CharField('Chức vụ', max_length = 20)
+  department = models.CharField('Phòng ban', max_length = 20)
 
   def __str__(self):
     return str(self.id) + "---" + self.name

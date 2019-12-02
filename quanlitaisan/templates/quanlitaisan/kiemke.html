@@ -28,7 +28,7 @@
       <th>Loại tài sản</th>
       <th>Tên tài sản</th>
       <th>Hiện trạng theo dõi</th>
-      <th>Hiện trạng kiểm kê</th>
+      <th>Số lượng tồn</th>
     </tr>
       <tr class="data">
         <td class="no">1</td>
@@ -36,13 +36,7 @@
         <td class="type">Auto fill</td>  
         <td class="name">Auto fill</td>  
         <td class="state">Auto fill</td>  
-        <td class="update" name="state">
-          <select name="state" required>
-            <option value="" selected>---------</option>
-            <option value="SD">Đang Sử dụng</option>
-            <option value="BH">Bị hỏng</option></td>  
-          </select>
-      </tr>
+        <td><input class="quantity" type="number" min= 0></td>
     </table>
   <input type="submit" value="update">
 </form>
@@ -86,7 +80,7 @@
       }
     }
   }
-  let rows = document.querySelector('table');
+  let rows = document.querySelector('table .id');
   rows.addEventListener('input', checkInfor);
 
   ////////////////////////////////////////////////////////////////////
@@ -106,7 +100,7 @@
       for(let field of autoFilled){
         field.textContent = 'auto filled';
       }
-      clone.addEventListener('input', checkInfor);
+      clone.querySelector('.id input').addEventListener('input', checkInfor);
       document.querySelector('tbody').append(clone);
     }
   });

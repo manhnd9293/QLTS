@@ -189,7 +189,7 @@ def inspect(request):
   else:    
     update_infor = request.POST
     assets = update_infor.getlist('id')
-    states = update_infor.getlist('state')
+    states = update_infor.getlist('quantity')
     
     success_item = 0
     failed_item = 0
@@ -225,10 +225,6 @@ def delete(request, asset_id):
     return HttpResponse('Access denied')
   return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id, 'name': employee.name})
 
-def test(request):
-  print('test is called')
-  return HttpResponse('done test')
-
 @login_required
 def update_asset(request, asset_id):
   infor = get_infor_by_user(request)
@@ -250,6 +246,14 @@ def update_asset(request, asset_id):
 @login_required      
 def nhap_hang(request):
   return render(request, 'quanlitaisan/nhaphang.html', {'title': 'Nhập hàng'})
+
+@login_required
+def display_profile(request):
+  infor = get_infor_by_user(request)
+  ast = infor['assets']
+  emp = infor['employee']
+  return render(request, 'quanlitaisan/profile.html', {'title': 'Thông tin cá nhân', 'emp' : emp})
+
 
 def sign_in(request):
   if request.method == 'GET':

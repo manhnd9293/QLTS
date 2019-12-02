@@ -2,10 +2,10 @@ let lineNo = 0;
 let input_view = document.getElementById('input_view');
 let search_view = document.getElementById('search_view');
 let select_view = document.getElementById('select_view');
-document.getElementById('temp').classList.add('hidden');
 
 let addButton = document.querySelector("#add_line");
 addButton.addEventListener('click', (e)=>{
+    document.getElementById('temp').classList.add('hidden');
     displaySearch(e);
     
 });
@@ -45,7 +45,7 @@ document.getElementById('search_but').addEventListener('click', async function(e
             cloneALine.querySelector('.unit').textContent = item.don_vi_tinh;
             cloneALine.classList.remove('hidden');
             document.querySelector('tbody').append(cloneALine);
-            document.querySelector('#select_table .data').innerHTML = '';
+            removeSelectData()
         });
 
         clone.classList.remove('hidden');
@@ -57,4 +57,12 @@ document.getElementById('search_but').addEventListener('click', async function(e
 document.getElementById('select_back').addEventListener('click', function(){
     search_view.classList.remove('hidden');
     select_view.classList.add('hidden');
+    removeSelectData();
 })
+
+function removeSelectData(){
+    let data = document.querySelectorAll('#select_table .data');
+    for (let line of data){
+        line.parentNode.removeChild(line);
+    }
+}
