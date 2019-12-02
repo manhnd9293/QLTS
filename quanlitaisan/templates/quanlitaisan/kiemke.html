@@ -28,15 +28,19 @@
       <th>Loại tài sản</th>
       <th>Tên tài sản</th>
       <th>Hiện trạng theo dõi</th>
+      <th>Đơn vị tính</th>
       <th>Số lượng tồn</th>
+      <th>Kiểm kê</th>
     </tr>
       <tr class="data">
         <td class="no">1</td>
         <td class="id"><input type="text" required name="id"></td>  
         <td class="type">Auto fill</td>  
         <td class="name">Auto fill</td>  
-        <td class="state">Auto fill</td>  
-        <td><input class="quantity" type="number" min= 0></td>
+        <td class="state">Auto fill</td>
+        <td class="unit">Auto</td>
+        <td class='quantity'>Auto</td>  
+        <td class="inspect"><input type="number" min= 0 required name="inspect"></td>
     </table>
   <input type="submit" value="update">
 </form>
@@ -69,11 +73,15 @@
     let nameData = thisRow.querySelector('.name');
     let typeData = thisRow.querySelector('.type');
     let stateData = thisRow.querySelector('.state');
-    let compound = [nameData, typeData, stateData];
+    let unitData = thisRow.querySelector('.unit');
+    let quantData = thisRow.querySelector('.quantity');
+    let compound = [nameData, typeData, stateData, unitData, quantData];
     if (json_res){
       nameData.textContent = json_res.ten_tai_san
       typeData.textContent = json_res.loai_tai_san
       stateData.textContent = json_res.hien_trang
+      unitData.textContent = json_res.don_vi_tinh
+      quantData.textContent = json_res.so_luong
     } else {
       for (let data of compound){
         data.textContent = 'Không tìm thấy';

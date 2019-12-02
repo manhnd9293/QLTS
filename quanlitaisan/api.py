@@ -26,6 +26,7 @@ def json_detail(request, asset_id):
     obj_dict.pop('ngay_su_dung')
     obj_dict['hien_trang'] = obj.get_hien_trang_display()
     obj_dict['loai_tai_san'] = obj.get_loai_tai_san_display()
+    obj_dict['don_vi_tinh'] = obj.get_don_vi_tinh_display()
     print(obj_dict)
     res = json.dumps(obj_dict)
     # print(res)

@@ -188,13 +188,14 @@ def inspect(request):
   
   else:    
     update_infor = request.POST
+    print(update_infor)
     assets = update_infor.getlist('id')
-    states = update_infor.getlist('quantity')
+    inspects = update_infor.getlist('inspect')
     
     success_item = 0
     failed_item = 0
     error_list = []
-    for (id, state) in zip(assets, states):
+    for (id, inspect) in zip(assets, inspects):
       id = int(id)
       try:    
         asset = TaiSan.objects.get(pk = id)
@@ -205,7 +206,7 @@ def inspect(request):
         error_list.append(id)
         # pass
       if asset:
-        asset.hien_trang = state
+        asset.so_luong = int(inspect)
         asset.save()
     context = {
       'url_name' : '/kiemke',
