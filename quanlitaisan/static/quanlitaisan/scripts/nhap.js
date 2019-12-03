@@ -19,6 +19,7 @@ let current_item = null;
 document.getElementById('back_search').addEventListener('click', () =>{
     search_view.classList.add('hidden');
     input_view.classList.remove('hidden');
+    document.getElementById('search_word').value = '';
 });
 
 document.getElementById('search_but').addEventListener('click', async function(e){
