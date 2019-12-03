@@ -46,7 +46,6 @@ def search(request, sw):
     obj_dict['loai_tai_san'] = obj.get_loai_tai_san_display()
     obj_dict['don_vi_tinh'] = obj.get_don_vi_tinh_display()
     json_obj = json.dumps(obj_dict, ensure_ascii=False)
-    print(json_obj)
     res.append(json_obj)
   res = json.dumps(res, ensure_ascii=False)
   # print(res)

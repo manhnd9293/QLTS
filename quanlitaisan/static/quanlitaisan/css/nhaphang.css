@@ -18,3 +18,7 @@ form{
   #select_table{
       width: 40%;
   }
+
+  .data td {
+    text-align: center;
+  }
