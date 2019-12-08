@@ -246,7 +246,31 @@ def update_asset(request, asset_id):
 
 @login_required      
 def nhap_hang(request):
-  return render(request, 'quanlitaisan/nhaphang.html', {'title': 'Nhập hàng'})
+  if request.method == 'GET':
+    return render(request, 'quanlitaisan/nhaphang.html', {'title': 'Nhập hàng'})
+  elif request.method == 'POST':
+    update_infor = request.POST
+    print(update_infor)
+    ids = update_infor.getlist('id')
+    quantities = update_infor.getlist('quantity')
+    del ids[0]
+    del quantities[0]
+    print(ids, quantities)
+    for (id, quantity) in zip(ids, quantities):
+      id = int(id)
+      try:    
+        asset = TaiSan.objects.get(pk = id)
+      except:
+        asset = None
+      if asset:
+        asset.so_luong += int(quantities)
+        asset.save()
+    context = {
+      'url_name' : '/nhap',
+      'title' : 'Lưu dữ liệu thành công',
+    }
+    return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/nhap'})
+
 
 @login_required
 def display_profile(request):

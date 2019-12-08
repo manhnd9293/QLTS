@@ -2,12 +2,11 @@ let lineNo = 0;
 let input_view = document.getElementById('input_view');
 let search_view = document.getElementById('search_view');
 let select_view = document.getElementById('select_view');
+// document.getElementById('temp').classList.add('hidden');
 
 let addButton = document.querySelector("#add_line");
 addButton.addEventListener('click', (e)=>{
-    document.getElementById('temp').classList.add('hidden');
-    displaySearch(e);
-    
+    displaySearch(e);  
 });
 
 function displaySearch(e){
@@ -50,6 +49,7 @@ document.getElementById('search_but').addEventListener('click', async function(e
             cloneALine.querySelector('.name').textContent = item.ten_tai_san;
             cloneALine.querySelector('.state').textContent = item.hien_trang;
             cloneALine.querySelector('.unit').textContent = item.don_vi_tinh;
+            cloneALine.querySelector('.hidden_id').value = String(item.id);
             cloneALine.classList.remove('hidden');
             document.querySelector('tbody').append(cloneALine);
             // clear data in search view and data view for next search

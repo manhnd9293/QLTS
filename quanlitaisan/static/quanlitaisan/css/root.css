@@ -41,14 +41,14 @@ header {
   /* background: url(../images/workspace3.jpg);
   background-size:  cover;
   background-repeat: no-repeat; */
-  height: 105px;
+  height: 15vh;
   color: whitesmoke;
 
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  font-size: 1.8em;
+  font-size: 1.4em;
 }
 
 header img {
@@ -60,7 +60,7 @@ header img {
 header a {
   display: block;
   font-size: 1em;
-  margin: 30px;
+  margin: 20px;
   text-transform: uppercase;
   
 }
@@ -93,9 +93,9 @@ nav a {
   /* display: block; */
   text-decoration: none;
   color: white;
-  margin: 0 15px;
+  margin: 0 9px;
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 section {

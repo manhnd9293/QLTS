@@ -10,8 +10,16 @@
 {% endblock %}
 {% block content %}
     <div id="input_view">
-        <form action="/kiemke" method="post">
+        <div>
+            <p>Thêm dòng</p>
+            <button id="add_line">Thêm</button><br>
+            <p></p>
+        </div>
+        
+        <form action="/nhap/" method="POST">
             {% csrf_token %}
+            <strong> Ngày nhập: </strong>
+            <input type="date" name="date" required>
                 <table id="update_table">
                     <tr>
                         <th>STT</th>
@@ -22,23 +30,19 @@
                         <th>Đơn vị</th>
                         <th>Số lượng nhập</th>
                     </tr>
-                    <tr class="data" id ='temp'>
-                        <td class="no">1</td>
-                        <td class="id"></td>  
-                        <td class="type"></td>  
-                        <td class="name"></td>  
-                        <td class="state"></td>
-                        <td class="unit"></td>  
-                        <td class="quantity"><input type="number" min="0"></td>
+                    <tr class="data hidden" id ='temp'>
+                            <td class="no">1</td>
+                            <td class="id"></td>  
+                            <td class="type"></td>  
+                            <td class="name"></td>  
+                            <td class="state"></td>
+                            <td class="unit"></td>  
+                            <td class="quantity"><input type="number" min="0" name ='quantity' ></td>
+                            <td style="display: none;"><input class='hidden_id' type="text" name="id"></td>  
                     </tr>
                 </table>
             <input type="submit" value="update">
         </form>
-        <div>
-            <p>Thêm dòng</p>
-            <button id="add_line">Thêm</button><br>
-            <p></p>
-        </div>
     </div>
     <div id='search_view' class = 'hidden'>
         <h2>Tìm kiếm tài sản</h2>
