@@ -105,9 +105,9 @@
       let clone = document.querySelector(".data").cloneNode(true);
       clone.querySelector('.no').textContent = String(++no);
       clone.querySelector('.id input').value = '';
-      let autoFilled = clone.querySelectorAll('.type, .name, .state');
+      let autoFilled = clone.querySelectorAll('.type, .name, .state .unit .quantity');
       for(let field of autoFilled){
-        field.textContent = 'auto filled';
+        field.textContent = 'auto';
       }
       clone.querySelector('.id input').addEventListener('input', checkInfor);
       document.querySelector('tbody').append(clone);

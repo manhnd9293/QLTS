@@ -1,5 +1,9 @@
 {% extends "quanlitaisan/base.html" %}
 {% block title %} Lưu thành công {% endblock %}
+{% block extra_css %}
+  {% load static %}
+    <link rel="stylesheet" href="{% static 'quanlitaisan/css/success.css' %}">
+{% endblock %}
 {% block content %}
   <div id="save_respone"> 
     {% block extra_content %}
