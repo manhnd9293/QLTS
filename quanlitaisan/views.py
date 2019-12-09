@@ -36,7 +36,9 @@ def index(req):
 
 @login_required
 def index_update(request):
-  return render(request, 'quanlitaisan/index1.html')
+  infor = get_infor_by_user(request)
+  employee = infor['employee']
+  return render(request, 'quanlitaisan/index1.html', {'title': 'Trang chủ', 'name': employee.name, 'page_name': 'Trang chủ'})
 
 @login_required
 def details(req, asset_id):
@@ -178,6 +180,36 @@ def add_maintain(request):
     else:
       return render(request, 'quanlitaisan/addMaintain.html', {'form': form, 'title': 'Invalid input'})
 
+
+@login_required
+def delete(request, asset_id):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
+  if not request.user.is_superuser:
+    return HttpResponse('Access denied')
+  return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id, 'name': employee.name})
+
+@login_required
+def update_asset(request, asset_id):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
+  if not request.user.is_superuser:
+    return HttpResponse('Access denied')
+
+  if request.method == 'GET':
+    asset = TaiSan.objects.get(pk = asset_id)
+    form = FormTaiSan(instance= asset)
+    return render(request, 'quanlitaisan/update_form.html', {'form': form, 'title': 'Cập nhật thông tin'})
+  else:
+    asset = TaiSan.objects.get(pk = asset_id)
+    update_infor = FormTaiSan(request.POST, instance = asset)
+    update_infor.save()
+    return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/search'})
+
+
+
 @login_required
 def inspect(request):
   infor = get_infor_by_user(request)
@@ -218,31 +250,45 @@ def inspect(request):
     return render(request, 'quanlitaisan/update_sucess.html', context)
 
 @login_required
-def delete(request, asset_id):
+def inspect_update(request):
   infor = get_infor_by_user(request)
   assets = infor['assets']
   employee = infor['employee']
-  if not request.user.is_superuser:
-    return HttpResponse('Access denied')
-  return render(request, 'quanlitaisan/delete_view.html', {'asset_id': asset_id, 'name': employee.name})
-
-@login_required
-def update_asset(request, asset_id):
-  infor = get_infor_by_user(request)
-  assets = infor['assets']
-  employee = infor['employee']
-  if not request.user.is_superuser:
-    return HttpResponse('Access denied')
-
   if request.method == 'GET':
-    asset = TaiSan.objects.get(pk = asset_id)
-    form = FormTaiSan(instance= asset)
-    return render(request, 'quanlitaisan/update_form.html', {'form': form, 'title': 'Cập nhật thông tin'})
-  else:
-    asset = TaiSan.objects.get(pk = asset_id)
-    update_infor = FormTaiSan(request.POST, instance = asset)
-    update_infor.save()
-    return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/search'})
+    return render(request, 'quanlitaisan/kiemke_update.html',{'title': 'Kiểm kê vật tư thiết bị','page_name': 'Kiểm kê vật tư thiết bị','name' : employee.name})
+  
+  else:    
+    update_infor = request.POST
+    print(update_infor)
+    assets = update_infor.getlist('id')
+    data = update_infor.getlist('data')
+    
+    success_item = 0
+    failed_item = 0
+    error_list = []
+    for (id, sl) in zip(assets, data):
+      id = int(id)
+      try:    
+        asset = TaiSan.objects.get(pk = id)
+        success_item +=1
+      except:
+        asset = None
+        failed_item += 1
+        error_list.append(id)
+        # pass
+      if asset:
+        asset.so_luong = int(sl)
+        asset.save()
+    context = {
+      'url_name' : '/kiemke',
+      'title' : 'Lưu dữ liệu thành công',
+      'sucess' : success_item,
+      'fail' : failed_item,
+      'error_list': error_list
+    }
+    return render(request, 'quanlitaisan/update_sucess.html', context)
+
+
 
 @login_required      
 def nhap_hang(request):
@@ -270,6 +316,83 @@ def nhap_hang(request):
       'title' : 'Lưu dữ liệu thành công',
     }
     return render(request, 'quanlitaisan/sucess_view.html', {'title':'Cập nhật thành công', 'url_name': '/nhap'})
+
+def nhap_hang_update(request):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
+  if request.method == 'GET':
+    return render(request, 'quanlitaisan/nhaphang_update.html',{'title': 'Nhập vật tư, thiết bị','page_name': 'Nhập vật tư, thiết bị','name' : employee.name})
+  
+  else:    
+    update_infor = request.POST
+    print(update_infor)
+    assets = update_infor.getlist('id')
+    data = update_infor.getlist('data')
+    
+    success_item = 0
+    failed_item = 0
+    error_list = []
+    for (id, sl) in zip(assets, data):
+      id = int(id)
+      try:    
+        asset = TaiSan.objects.get(pk = id)
+        success_item +=1
+      except:
+        asset = None
+        failed_item += 1
+        error_list.append(id)
+        # pass
+      if asset:
+        asset.so_luong += int(sl)
+        asset.save()
+    context = {
+      'url_name' : '/nhap/',
+      'title' : 'Lưu dữ liệu thành công',
+      'sucess' : success_item,
+      'fail' : failed_item,
+      'error_list': error_list
+    }
+    return render(request, 'quanlitaisan/update_sucess.html', context)
+
+@login_required
+def xuat_hang_update(request):
+  infor = get_infor_by_user(request)
+  assets = infor['assets']
+  employee = infor['employee']
+  if request.method == 'GET':
+    return render(request, 'quanlitaisan/xuathang.html',{'title': 'Xuất vật tư, thiết bị','page_name': 'Xuất vật tư, thiết bị','name' : employee.name})
+  
+  else:    
+    update_infor = request.POST
+    print(update_infor)
+    assets = update_infor.getlist('id')
+    data = update_infor.getlist('data')
+    
+    success_item = 0
+    failed_item = 0
+    error_list = []
+    for (id, sl) in zip(assets, data):
+      id = int(id)
+      try:    
+        asset = TaiSan.objects.get(pk = id)
+        success_item +=1
+      except:
+        asset = None
+        failed_item += 1
+        error_list.append(id)
+        # pass
+      if asset:
+        asset.so_luong -= int(sl)
+        asset.save()
+    context = {
+      'url_name' : '/kiemke',
+      'title' : 'Lưu dữ liệu thành công',
+      'sucess' : success_item,
+      'fail' : failed_item,
+      'error_list': error_list
+    }
+    return render(request, 'quanlitaisan/update_sucess.html', context)
 
 
 @login_required

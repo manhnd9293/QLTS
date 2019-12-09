@@ -43,6 +43,9 @@
           {%if user.is_authenticated %}
           <p>Xin chào {{ name }}</p>
           {% endif %}
+          <h2>
+            {{ page_name }}
+          </h2>
             {% block content %}
               <h1>Phần mềm Quản lý tài sản</h1>
               <h3>Tài sản gần thêm gần đây</h3>
