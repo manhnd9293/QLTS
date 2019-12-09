@@ -36,7 +36,7 @@
       <th>Hiện trạng theo dõi</th>
       <th>Đơn vị tính</th>
       <th>Số lượng tồn</th>
-      <th>Kiểm kê</th>
+      <th>Số lượng</th>
     </tr>
       <tr class="data">
         <td class="no">1</td>
@@ -107,7 +107,7 @@
       clone.querySelector('.id input').value = '';
       let autoFilled = clone.querySelectorAll('.type, .name, .state .unit .quantity');
       for(let field of autoFilled){
-        field.textContent = 'auto';
+        field.textContent = 'Auto';
       }
       clone.querySelector('.id input').addEventListener('input', checkInfor);
       document.querySelector('tbody').append(clone);

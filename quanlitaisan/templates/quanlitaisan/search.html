@@ -11,7 +11,8 @@
     <label for="asset_id"> ID tài sản: </label>
     <input type="number" name="asset_id" >
   </p>
-  <p><label for="id_loai_tai_san">Loại tài sản:</label> 
+  <p>
+    <label for="id_loai_tai_san">Loại tài sản:</label> 
     <select name="loai_tai_san" id="id_loai_tai_san">
     <option value="" selected>---------</option>
   
@@ -19,23 +20,25 @@
   
     <option value="TB">Thiết bị</option>
   
-  </select>
+    </select>
   </p>
   <p>
     <label for="id_ten_tai_san">Tên tài sản:</label> 
     <input type="text" name="ten_tai_san" maxlength="20" id="id_ten_tai_san">
   </p>
+  <p>Thời gian bắt đầu sử dụng:</p>
+  <div class='moreback'>
+    <p>
+      <label for="id_from_date">Từ ngày:</label> 
+      <input type="date" name="from_date" maxlength="20" id="id_from_date">
+    </p>
+    <p>
+      <label for="id_to_date">Đến ngày:</label> 
+      <input type="date" name="to_date" maxlength="20" id="id_to_date">
+    </p>
+  </div>
   <p>
-    <div>
-      <span>Thời gian bắt đầu sử dụng</span>
-    </div>
-    <label for="id_from_date">Từ ngày</label> 
-    <input type="date" name="from_date" maxlength="20" id="id_from_date"> 
-    <label for="id_to_date">Đến ngày</label> 
-    <input type="date" name="to_date" maxlength="20" id="id_to_date">
-  </p>
-  <p>
-    <label for="id_hien_trang">Hiện trạng</label> 
+    <label for="id_hien_trang">Hiện trạng:</label> 
     <select name="hien_trang" id="id_hien_trang">
         <option value="" selected>---------</option>
       

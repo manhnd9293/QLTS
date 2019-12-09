@@ -201,7 +201,7 @@ def update_asset(request, asset_id):
   if request.method == 'GET':
     asset = TaiSan.objects.get(pk = asset_id)
     form = FormTaiSan(instance= asset)
-    return render(request, 'quanlitaisan/update_form.html', {'form': form, 'title': 'Cập nhật thông tin'})
+    return render(request, 'quanlitaisan/update_form.html', {'form': form,'name': employee.name, 'title': 'Cập nhật thông tin'})
   else:
     asset = TaiSan.objects.get(pk = asset_id)
     update_infor = FormTaiSan(request.POST, instance = asset)

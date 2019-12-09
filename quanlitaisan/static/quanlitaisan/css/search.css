@@ -1,0 +1,20 @@
+form{
+    display: block;
+    width: 800px;
+  }
+  
+  form p label{
+    display: inline-block;
+    width: 120px;
+  }
+  
+  label{
+    vertical-align: middle;
+  }
+  .moreback {
+    margin-left: 30px;
+  }
+  
+  .moreback label{
+      width: 90px;
+  }
