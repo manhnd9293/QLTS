@@ -403,6 +403,17 @@ def display_profile(request):
   return render(request, 'quanlitaisan/profile.html', {'title': 'Thông tin cá nhân', 'emp' : emp})
 
 
+@login_required
+def change_password(request):
+  if request.method == 'GET':
+    context= {
+      'title' : 'Đổi mật khẩu',
+      'page_name':  'Đổi mật khẩu'
+    }
+    return render(request, 'quanlitaisan/changepass.html', context)
+  # elif request.method == 'POST':
+
+
 def sign_in(request):
   if request.method == 'GET':
     next_url =  request.GET['next']

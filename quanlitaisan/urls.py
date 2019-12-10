@@ -23,6 +23,7 @@ urlpatterns = [
   path('signout', views.signout, name = 'signout_view'),
   path('accounts/login/', views.sign_in, name = 'sign_in_view'),
   path('assets/update/<int:asset_id>', views.update_asset, name = 'update'),
-  path('profile/', views.display_profile, name = 'profile')
+  path('profile/', views.display_profile, name = 'profile'),
+  path('changepassword/', views.change_password, name = 'change_pass')
   # path('test', views.test, name= 'test'),
 ]
