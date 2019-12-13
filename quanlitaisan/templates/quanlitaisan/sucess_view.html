@@ -11,7 +11,9 @@
     <h2> Đã lưu vào cơ sở dữ liệu. Bạn có muốn tiếp tục ? </h2>
     <div id= "links">
       <a id="back" href="/"> Quay lại trang chủ </a>
-      <a id="continue" href={{ url_name }}>Tiếp tục </a>  
+      {%if url_name %}
+        <a id="continue" href={{ url_name }}>Tiếp tục </a>  
+      {% endif %}
     </div>
   </div>
 {% endblock %}

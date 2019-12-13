@@ -400,7 +400,7 @@ def display_profile(request):
   infor = get_infor_by_user(request)
   ast = infor['assets']
   emp = infor['employee']
-  return render(request, 'quanlitaisan/profile.html', {'title': 'Thông tin cá nhân', 'emp' : emp})
+  return render(request, 'quanlitaisan/profile.html', {'title': 'Thông tin cá nhân', 'emp' : emp, 'name': emp.name})
 
 
 @login_required
@@ -411,7 +411,28 @@ def change_password(request):
       'page_name':  'Đổi mật khẩu'
     }
     return render(request, 'quanlitaisan/changepass.html', context)
-  # elif request.method == 'POST':
+  elif request.method == 'POST':
+    infor = request.POST
+    user = request.user
+    oldpass = infor['oldpass']
+    newpass = infor['newpass']
+    confirmpass = infor['confirmpass']
+    check_old = user.check_password(oldpass)
+
+    if check_old == False:
+      error_message = 'Sai mật khẩu hiện tại'
+      return render(request, 'quanlitaisan/changepass.html', {'error_message': error_message})
+    elif newpass != confirmpass:
+      error_message = 'Xác nhận mật khẩu mới không đúng'
+      return render(request, 'quanlitaisan/changepass.html', {'error_message': error_message})
+      return render(request, 'quanlitaisan/changepass.html', {'error_message': error_message})
+    elif newpass == oldpass:
+      error_message = 'Mật khẩu mới phải khác mật khẩu cũ'
+      return render(request, 'quanlitaisan/changepass.html', {'error_message': error_message})
+    else:
+      user.set_password(newpass)
+      user.save()
+      return render(request, 'quanlitaisan/sucess_view.html')
 
 
 def sign_in(request):

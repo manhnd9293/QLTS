@@ -1,18 +1,19 @@
 {% extends 'quanlitaisan/base.html' %}
 {% block content %}
     {{ error_message }}
-    <form action="/changepassword/">
+    <form action="/changepassword/" method="POST">
+        {% csrf_token %}
         <p>
             <label for="oldpass">Mật khẩu cũ</label>
-            <input type="password" name="from_date" maxlength="20" id="oldpass">
+            <input type="password" name="oldpass" maxlength="20" id="oldpass">
         </p>
         <p>
             <label for="newpass">Mật khẩu mới</label>
-            <input type="password" name="from_date" maxlength="20" id="newpass">
+            <input type="password" name="newpass" maxlength="20" id="newpass">
         </p>
         <p>
             <label for="confirmpass">Xác nhận mật khẩu mới</label>
-            <input type="password" name="from_date" maxlength="20" id="confirmpass">
+            <input type="password" name="confirmpass" maxlength="20" id="confirmpass">
         </p>
         <p>
             <input type="submit" value="Đổi mật khẩu">
