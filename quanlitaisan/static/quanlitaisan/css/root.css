@@ -1,5 +1,8 @@
 body {
-  background-color: #F1EFE2;
+  /* background-color:  #F1EFE2; */
+  /* background-color:  #F1EFE2; */
+ 
+  /* whitesmoke */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   margin: 0px;
@@ -39,14 +42,14 @@ header {
   /* background: url(../images/workspace3.jpg);
   background-size:  cover;
   background-repeat: no-repeat; */
-  height: 120px;
+  height: 15vh;
   color: whitesmoke;
 
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  font-size: 1.8em;
+  font-size: 1.4em;
 }
 
 header img {
@@ -58,7 +61,7 @@ header img {
 header a {
   display: block;
   font-size: 1em;
-  margin: 30px;
+  margin: 20px;
   text-transform: uppercase;
   
 }
@@ -91,9 +94,9 @@ nav a {
   /* display: block; */
   text-decoration: none;
   color: white;
-  margin: 0 15px;
+  margin: 0 9px;
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 section {
@@ -136,16 +139,6 @@ label{
   vertical-align: top;
 }
 
-.recent {
-  border-collapse: collapse;
-  width: 50%;
-  margin: 30px 10px;
-}
-  
-.recent th, .recent tr, .recent td{
-  border: 1px solid black;
-  padding: 10px;
-}
 
 .pagination{
   width: 90%;
@@ -164,4 +157,8 @@ label{
   text-decoration: none;
   margin: 0px 5px;
 
+}
+
+form input {
+  line-height: 20px;
 }

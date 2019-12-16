@@ -1,0 +1,149 @@
+{% extends "quanlitaisan/base.html" %}
+{% block extra_css %}
+
+<style>
+  form{
+    width: 70%;
+  }
+  table{
+    margin: 20px 20px;
+    width: 100%;
+  }
+  table, tr, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  }
+  th, td{
+    padding: 10px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+  <form action="/kiemke/" method="post">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <th>STT</th>
+      <th class="asset_id">Mã tài sản</th>
+      <th>Loại tài sản</th>
+      <th>Tên tài sản</th>
+      <th>Hiện trạng theo dõi</th>
+      <th>Đơn vị tính</th>
+      <th>Số lượng tồn</th>
+      <th>Kiểm kê</th>
+    </tr>
+      <tr class="data">
+        <td class="no">1</td>
+        <td class="id"><input type="text" required name="id"></td>  
+        <td class="type">Auto</td>  
+        <td class="name">Auto</td>  
+        <td class="state">Auto</td>
+        <td class="unit">Auto</td>
+        <td class='quantity'>Auto</td>  
+        <td class="inspect"><input type="number" min= 0 required name="inspect"></td>
+    </table>
+  <input type="submit" value="update">
+</form>
+<div>
+  <p>Thêm dòng</p>
+  <input type="number" id="lineno">
+  <button id="add_line">Thêm</button><br>
+  <p></p>
+</div>
+<!-- <p>
+  <button id="exp">exp</button>
+</p> -->
+
+<script>
+  // number of item in list
+  let no = 1;
+
+  //////////////////////////////////////////////////////////////////
+  // chuc nang kiem tra id nhap vao
+  //////////////////////////////////////////////////////////////////
+  let checkInfor = async function(e){
+    if(e.target.tagName === 'SELECT') return;
+    let id = e.target.value;
+    let url = '/api/' + id;
+    let response = await fetch('/api/' + id);
+    let json_res = await response.json();
+    console.log(json_res);
+    
+    let thisRow = e.target.parentNode.parentNode;
+    let nameData = thisRow.querySelector('.name');
+    let typeData = thisRow.querySelector('.type');
+    let stateData = thisRow.querySelector('.state');
+    let unitData = thisRow.querySelector('.unit');
+    let quantData = thisRow.querySelector('.quantity');
+    let compound = [nameData, typeData, stateData, unitData, quantData];
+    if (json_res){
+      nameData.textContent = json_res.ten_tai_san
+      typeData.textContent = json_res.loai_tai_san
+      stateData.textContent = json_res.hien_trang
+      unitData.textContent = json_res.don_vi_tinh
+      quantData.textContent = json_res.so_luong
+    } else {
+      for (let data of compound){
+        data.textContent = 'Không tìm thấy';
+      }
+    }
+  }
+  let rows = document.querySelector('table .id');
+  rows.addEventListener('input', checkInfor);
+
+  ////////////////////////////////////////////////////////////////////
+  //Chuc nang them dong moi
+  ////////////////////////////////////////////////////////////////////
+  let addButton = document.querySelector("#add_line");
+  addButton.addEventListener('click', (e)=>{
+    let lineno = document.querySelector('#lineno');
+    let nums = lineno.value;
+    lineno.value = '';
+    console.log(nums);
+    for(let i = 0; i < nums; i++){
+      let clone = document.querySelector(".data").cloneNode(true);
+      clone.querySelector('.no').textContent = String(++no);
+      clone.querySelector('.id input').value = '';
+      let autoFilled = clone.querySelectorAll('.type, .name, .state');
+      for(let field of autoFilled){
+        field.textContent = 'auto filled';
+      }
+      clone.querySelector('.id input').addEventListener('input', checkInfor);
+      document.querySelector('tbody').append(clone);
+    }
+  });
+
+// ////////////////////////////////////////////////////////////////////////
+// // Thu nghiem tinh nang gui form banng fetch api
+// ////////////////////////////////////////////////////////////////////////
+//   let exp = document.querySelector('#exp')
+//   exp.addEventListener('click', async ()=>{
+//     let ids = [];
+//     let states = [];
+//     let idElems = document.querySelectorAll('.data .id input')
+//     let selectElems = document.querySelectorAll('.data .update select')
+    
+//     for(let idElement of idElems){
+//       ids.push(idElement.value);
+//     }
+//     for(let selectElem of selectElems){
+//       states.push(selectElem.value);
+//     }
+    
+//     let data = {assets : ids, states : states};
+//     let serialData = JSON.stringify(data);
+//     let url = '/kiemke';
+//     let updateResponse = await fetch(url,{
+//       method: 'POST',
+//       body: serialData,
+//       headers: {
+//       'Accept':'application/json',
+//       'Content-Type': 'application/json'
+//       },
+//       credentials: "same-origin"
+//     });
+//     let textUpdateResponse = await updateResponse.text();
+    // console.log(textUpdateResponse);
+  // })
+</script>
+{% endblock %}

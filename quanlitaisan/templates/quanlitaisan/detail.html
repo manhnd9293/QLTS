@@ -21,6 +21,14 @@
     <td> {{ obj.ten_tai_san }}</td>
   </tr>
   <tr>
+    <td>Đơn vị:</td>
+    <td> {{ obj.get_don_vi_tinh_display}}</td>
+  </tr>
+  <tr>
+    <td>Số lượng:</td>
+    <td> {{ obj.so_luong }}</td>
+  </tr>
+  <tr>
     <td>Ngày bắt đầu sử dụng:</td>
     <td>{{ obj.ngay_su_dung }}</td>
   </tr>
@@ -31,6 +39,18 @@
   <tr>
     <td>Thời hạn bảo hành:</td>
     <td>{{ obj.thoi_han_bao_hanh }}</td>
+  </tr>
+  <tr>
+      <td>Địa điểm:</td>
+      <td>{{ obj.dia_diem }}</td>
+    </tr>
+  <tr>
+    <td>Trạng thái:</td>
+    <td>{{ obj.get_hien_trang_display }}</td>
+  </tr>
+  <tr>
+    <td>Người quản lý</td>
+    <td>{{ obj.quan_ly.name }}</td>
   </tr>
   <tr>
     <td>Tài sản cha</td>
@@ -76,10 +96,13 @@
 {% else %}
 <p>None</p>
 {% endif %}
-
-<div id="button_contain">
-  <button id="edit">  Sửa thông tin</button>
-  <button id="delete"> Xóa tài sản </button>
-</div>
+{% if user.is_superuser %}
+<div class="ud">
+    <a href="{% url 'quanlitaisan:update' obj.id %}">Sửa thông tin tài sản</a> <br>
+  </div>
   
+  <div class="ud">
+    <a href="{% url 'quanlitaisan:delete_view' obj.id %}">Xóa tài sản</a>
+  </div>
+{% endif %}
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'quanlitaisan/base.html' %}
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'quanlitaisan/css/profile.css' %}">
+{% endblock %}
+{% block content %}
+<h2>Thông tin nhân viên</h2>
+<table id="details_table">
+    <tr>
+        <th>Họ và tên:</th>
+        <td>{{ emp.name }}</td>
+    </tr>
+    <tr>
+        <th>Chức vụ:</th>
+        <td>{{ emp.title }}</td>
+    </tr>
+    <tr>
+        <th>Phòng ban:</th>
+        <td>{{ emp.department }}</td>
+    </tr>
+</table>
+<p>
+    <ul>
+        <li>
+            <a href="/changepassword/">Đổi mật khẩu</a><br>
+        </li>
+        <li>
+            <a href="/signout">Đăng xuất</a>
+        </li>
+    </ul>
+</p>
+{% endblock %}

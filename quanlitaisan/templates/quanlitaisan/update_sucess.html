@@ -1,0 +1,18 @@
+
+{% extends 'quanlitaisan/sucess_view.html' %}
+{% block extra_content %}
+<h3>
+  {{ sucess }} thành công
+  {{ fail }} lỗi
+</h3>
+  {%if fail > 0 %}
+    <p>Các id không tồn tại</p>
+    <ul>
+      {% for id in error_list %}
+        <li>
+          {{ id }}
+        </li>      
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

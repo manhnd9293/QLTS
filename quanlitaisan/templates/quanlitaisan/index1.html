@@ -1,0 +1,28 @@
+{% extends "quanlitaisan/base.html" %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quanlitaisan/css/index.css' %}">
+{% endblock %}
+
+    {% block title %} 
+    Quản lí tài sản - Home page 
+    {% endblock %}
+
+{% block content %}
+    <h3>Tài sản</h3>
+    <ul>
+        <li><a href="/search">Tìm kiếm</a></li>
+        <li><a href="/addItem">Thêm tài sản</a></li>
+        <li><a href="/nhap">Cập nhật số lượng nhập</a></li>
+        <li><a href="/xuat">Cập nhật số lượng xuất</a></li>
+        <li><a href="/kiemke">Kiểm kê</a></li>
+        <li><a href="addMaintain/">Thêm bảo trì</a></li>
+    </ul>
+    <h3>Cá nhân</h3>
+    <ul>
+        <li><a href="/profile">Xem thông tin cá nhân</a></li>
+        <li><a href="/changepassword/">Đổi mật khẩu</a></li>
+        <li><a href="/signout">Đăng xuất</a></li>
+    </ul>
+{% endblock %}
