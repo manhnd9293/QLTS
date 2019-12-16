@@ -1,3 +1,3 @@
 # QLTS
-# Asset management website for a school
-project used django 2.2.4
+# Asset management website
+project used django 2.2.4 for backend, and HTML/CSS for frontend
